@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">rooms@unibas</string>
+    <string name="cbShowAll">Alles</string>
+    <string name="labelRoom">Raum:</string>
+    <string name="labelLecturer">Dozent:</string>
+</resources>
