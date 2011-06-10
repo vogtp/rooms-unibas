@@ -1,6 +1,5 @@
 package ch.almana.unibas.rooms.view.adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +14,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.helper.Logger;
+import ch.almana.unibas.rooms.helper.Settings;
 
 public class RoomAdapter extends BaseAdapter {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
 	private LayoutInflater layoutInflator;
 	private List<JSONObject> entries;
@@ -56,10 +54,11 @@ public class RoomAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = (convertView != null) ? convertView : createView(parent);
 		JSONObject room = entries.get(position);
+		Settings settings = Settings.getInstance();
 		try {
 			Date date = new Date(room.getLong("starttime") * 1000);
-			((TextView) view.findViewById(R.id.tvTime)).setText(TIME_FORMAT.format(date));
-			((TextView) view.findViewById(R.id.tvDate)).setText(DATE_FORMAT.format(date));
+			((TextView) view.findViewById(R.id.tvTime)).setText(settings.getTimeFormat().format(date));
+			((TextView) view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
 			((TextView) view.findViewById(R.id.tvRoom)).setText(room.getString("room"));
 			((TextView) view.findViewById(R.id.tvLecturer)).setText(room.getString("teacher"));
 			((TextView) view.findViewById(R.id.tvTitle)).setText(room.getString("reservation_name"));
