@@ -2,8 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:paddingBottom="5dp">
-	<TextView android:layout_height="wrap_content" android:id="@+id/tvDate"
-		android:layout_width="wrap_content" android:text="date"></TextView>
 	<TableLayout android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:id="@+id/trRooms">
 		<TableRow android:layout_height="wrap_content"
@@ -14,17 +12,16 @@
 				android:text="time"></TextView>
 			<TextView android:layout_height="wrap_content"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:layout_width="wrap_content" android:ellipsize="end" android:id="@+id/tvTitle" android:singleLine="true"
-				android:text="time"></TextView>
+				android:layout_width="wrap_content" android:ellipsize="end"
+				android:id="@+id/tvTitle" android:singleLine="true" android:text="time"></TextView>
 		</TableRow>
 		<TableRow android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:id="@+id/trRoom">
 			<TextView android:layout_height="wrap_content"
 				android:layout_width="wrap_content" android:layout_marginRight="5dp"
-				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:id="@+id/labelRoom" android:text="@string/labelRoom"></TextView>
 			<TextView android:text="TextView" android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="wrap_content" 
 				android:id="@+id/tvRoom" android:ellipsize="end" android:singleLine="true"></TextView>
 		</TableRow>
 
@@ -32,11 +29,11 @@
 			android:layout_width="wrap_content" android:id="@+id/trLecturer">
 			<TextView android:layout_height="wrap_content"
 				android:layout_width="wrap_content" android:layout_marginRight="5dp"
-				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:id="@+id/labelLecturer" android:text="@string/labelLecturer"></TextView>
 			<TextView android:text="TextView" android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
-				android:id="@+id/tvLecturer" android:ellipsize="end" android:singleLine="true"></TextView>
+				android:layout_width="wrap_content" 
+				android:id="@+id/tvLecturer" android:ellipsize="end"
+				android:singleLine="true"></TextView>
 		</TableRow>
 	</TableLayout>
 

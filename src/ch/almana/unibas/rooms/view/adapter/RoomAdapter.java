@@ -58,7 +58,8 @@ public class RoomAdapter extends BaseAdapter {
 		try {
 			Date date = new Date(room.getLong("starttime") * 1000);
 			((TextView) view.findViewById(R.id.tvTime)).setText(settings.getTimeFormat().format(date));
-			((TextView) view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
+			// ((TextView)
+			// view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
 			((TextView) view.findViewById(R.id.tvRoom)).setText(room.getString("room"));
 			((TextView) view.findViewById(R.id.tvLecturer)).setText(room.getString("teacher"));
 			((TextView) view.findViewById(R.id.tvTitle)).setText(room.getString("reservation_name"));
