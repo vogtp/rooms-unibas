@@ -1,19 +1,17 @@
 package ch.almana.unibas.rooms.view.activity;
 
-import java.util.Calendar;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.DatePicker.OnDateChangedListener;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
+import ch.almana.unibas.rooms.view.widget.DateButton;
+import ch.almana.unibas.rooms.view.widget.DateButton.OnDateChangedListener;
 
 public class RoomUnibasActivity extends ListActivity implements OnDateChangedListener {
-	private DatePicker dpDate;
 	private CheckBox cbShowAll;
+	private DateButton dateButton;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -21,7 +19,9 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.room_list);
 
-		dpDate = (DatePicker) findViewById(R.id.dpDate);
+		dateButton = (DateButton) findViewById(R.id.dateButton1);
+		dateButton.setOnDateChangedListener(this);
+
 		// cbShowAll = (CheckBox) findViewById(R.id.cbShowAll);
 		//
 		// cbShowAll.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -33,10 +33,6 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		// }
 		// });
 
-		Calendar cal = Calendar.getInstance();
-		dpDate.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), this);
-		
-		
 	}
 
 	@Override
@@ -47,23 +43,13 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	}
 
 	private void updateView() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_MONTH, dpDate.getDayOfMonth());
-		cal.set(Calendar.MONTH, dpDate.getMonth());
-		cal.set(Calendar.YEAR, dpDate.getYear());
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
 		boolean checked = false;// cbShowAll.isChecked();
-
-		getListView().setAdapter(new RoomAdapter(this, RoomAccess.getRooms(cal.getTimeInMillis(), checked, "ISO-8859-1")));
+		getListView().setAdapter(new RoomAdapter(this, RoomAccess.getRooms(dateButton.getDate(), checked, "ISO-8859-1")));
 	}
-
-
 
 	@Override
-	public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+	public void dateChanged(long date) {
 		updateView();
 	}
+
 }
