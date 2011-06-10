@@ -5,7 +5,7 @@ import android.util.Log;
 public class Logger {
 
 
-	private static String TAG = "perssearch";
+	private static String TAG = "rooms@unibas";
 
 
 	public static void e(String msg, Throwable t) {
