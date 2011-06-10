@@ -57,7 +57,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		cal.set(Calendar.MILLISECOND, 0);
 		boolean checked = false;// cbShowAll.isChecked();
 
-		getListView().setAdapter(new RoomAdapter(this, RoomAccess.getRooms(cal.getTimeInMillis(), checked)));
+		getListView().setAdapter(new RoomAdapter(this, RoomAccess.getRooms(cal.getTimeInMillis(), checked, "ISO-8859-1")));
 	}
 
 

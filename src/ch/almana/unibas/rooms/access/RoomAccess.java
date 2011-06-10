@@ -19,8 +19,8 @@ import ch.almana.unibas.rooms.helper.Logger;
 
 public class RoomAccess {
 
-	public static List<JSONObject> getRooms(long date, boolean pastEntries) {
-		String uri = getUri("http://rooms.medizin.unibas.ch/lib/json.php", date, pastEntries);
+	public static List<JSONObject> getRooms(long date, boolean pastEntries, String encoding) {
+		String uri = getUri("http://rooms.medizin.unibas.ch/lib/json.php", date, pastEntries, encoding);
 		try {
 			return parseJson(uri);
 		} catch (JSONException e) {
@@ -28,7 +28,8 @@ public class RoomAccess {
 		}
 		return new ArrayList<JSONObject>();
 	}
-	private static String getUri(String uri, long time, boolean all) {
+
+	private static String getUri(String uri, long time, boolean all, String encoding) {
 		Logger.v("Loading >" + uri + "<");
 		long start = System.currentTimeMillis();
 		final DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -44,13 +45,12 @@ public class RoomAccess {
 		}
 
 		HttpUriRequest request = new HttpGet(uri);
-
 		BufferedHttpEntity bhe = null;
 		BufferedReader content = null;
 		try {
 			HttpResponse response = httpClient.execute(request);
 			bhe = new BufferedHttpEntity(response.getEntity());
-			content = new BufferedReader(new InputStreamReader(bhe.getContent()));
+			content = new BufferedReader(new InputStreamReader(bhe.getContent(), encoding));
 			String line;
 			StringBuilder sb = new StringBuilder();
 			while ((line = content.readLine()) != null) {
