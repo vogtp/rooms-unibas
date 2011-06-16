@@ -6,9 +6,11 @@ V
 * internal
 - 
 
-V 
+V 0.3.0
 * features
+- display information when searching or no events found
 - navigate with gestures
+- navigate with buttons
 * bugfixes
 -
 * internal

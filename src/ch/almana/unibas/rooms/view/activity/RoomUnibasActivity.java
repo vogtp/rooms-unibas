@@ -75,7 +75,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		if (progress > 0) {
 			roomAccess.cancel(true);
 		}
-
+		updateAdapter(RoomAccess.LOADING_ROOMS);
 		roomAccess = new RoomAccess(this);
 		setProgressBarVisibility(true);
 		progress = 1000;
@@ -91,10 +91,18 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 
 	@Override
 	public void loadingFinished(List<JSONObject> result) {
-		roomAdapter.setData(result);
-		getListView().setAdapter(roomAdapter);
+		if (result.size() > 0) {
+			updateAdapter(result);
+		} else {
+			updateAdapter(RoomAccess.NO_ROOMS);
+		}
 		setProgressBarVisibility(false);
 		progress = 0;
+	}
+
+	private void updateAdapter(List<JSONObject> result) {
+		roomAdapter.setData(result);
+		getListView().setAdapter(roomAdapter);
 	}
 
 	@Override

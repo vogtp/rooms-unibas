@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources><string name="msg_loading_data">Loading data...</string>
 <string name="msg_no_rooms_information_received">Could not get rooms information</string>
+<string name="item_loading">Loading...</string>
+<string name="msg_no_events">No events found</string>
 </resources>

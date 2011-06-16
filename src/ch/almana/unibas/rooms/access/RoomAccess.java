@@ -20,7 +20,13 @@ import ch.almana.unibas.rooms.helper.Logger;
 
 public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 
-	public static final ArrayList<JSONObject> NO_ROOMS = new ArrayList<JSONObject>();
+	public static List<JSONObject> NO_ROOMS = new ArrayList<JSONObject>(1);
+	public static List<JSONObject> LOADING_ROOMS = new ArrayList<JSONObject>(1);
+
+	static {
+		NO_ROOMS.add(new JSONObject());
+		LOADING_ROOMS.add(new JSONObject());
+	}
 
 	public interface RoomAccessCallback {
 
@@ -119,6 +125,9 @@ public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 
 	private List<JSONObject> parseJson(String payload) throws JSONException {
 		JSONArray jsonArray = new JSONArray(payload);
+		if (jsonArray.length() < 1) {
+			return NO_ROOMS;
+		}
 		List<JSONObject> list = new ArrayList<JSONObject>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			publishProgress((Integer[]) null);

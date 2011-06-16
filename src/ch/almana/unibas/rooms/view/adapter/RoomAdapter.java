@@ -53,6 +53,12 @@ public class RoomAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		if (entries == RoomAccess.LOADING_ROOMS) {
+			return (View) layoutInflator.inflate(R.layout.room_item_loading, parent, false);
+		}
+		if (entries == RoomAccess.NO_ROOMS) {
+			return (View) layoutInflator.inflate(R.layout.room_item_noevents, parent, false);
+		}
 		View view = (convertView != null) ? convertView : createView(parent);
 		JSONObject room = entries.get(position);
 		Settings settings = Settings.getInstance();
