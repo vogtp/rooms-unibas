@@ -28,9 +28,9 @@ public class LeftRightGestureListener extends SimpleOnGestureListener {
 
 		if (Math.abs(dx) > MAJOR_MOVE && Math.abs(velocityX) > Math.abs(velocityY) && movedAcross && steadyHand) {
 			if (velocityX > 0) {
-				receiver.moveRight();
-			} else {
 				receiver.moveLeft();
+			} else {
+				receiver.moveRight();
 			}
 			return true;
 		} else {
