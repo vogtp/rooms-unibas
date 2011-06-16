@@ -41,6 +41,7 @@ public class DateButton extends Button {
 
 	private void init() {
 		setDate(System.currentTimeMillis());
+
 		setOnClickListener(new OnClickListener() {
 
 			@Override

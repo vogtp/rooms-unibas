@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<ch.almana.unibas.rooms.view.widget.DateButton
-		android:layout_width="fill_parent" android:text="DateButton"
-		android:id="@+id/dateButton1" android:layout_height="wrap_content" android:typeface="normal" android:textStyle="bold" android:textSize="20dp"></ch.almana.unibas.rooms.view.widget.DateButton>
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <Button android:id="@+id/buLeft" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="&lt;" android:layout_weight=".1" android:minWidth="50dp"></Button>
+        <ch.almana.unibas.rooms.view.widget.DateButton android:textStyle="bold" android:typeface="normal" android:id="@+id/dateButton1" android:textSize="20dp" android:text="DateButton" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight=".7"></ch.almana.unibas.rooms.view.widget.DateButton>
+        <Button android:id="@+id/buRight" android:text="&gt;" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight=".1" android:minWidth="50dp"></Button>
+    </LinearLayout>
 	<ListView android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:id="@android:id/list"></ListView>
 </LinearLayout>

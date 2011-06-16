@@ -8,9 +8,10 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.CheckBox;
+import android.widget.Button;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomAccess.RoomAccessCallback;
@@ -21,7 +22,7 @@ import ch.almana.unibas.rooms.view.widget.DateButton;
 import ch.almana.unibas.rooms.view.widget.DateButton.OnDateChangedListener;
 
 public class RoomUnibasActivity extends ListActivity implements OnDateChangedListener, IGestureReceiver, RoomAccessCallback {
-	private CheckBox cbShowAll;
+
 	private DateButton dateButton;
 	private LeftRightGestureListener leftRightGestureListener;
 	private RoomAdapter roomAdapter;
@@ -38,6 +39,19 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		dateButton = (DateButton) findViewById(R.id.dateButton1);
 		dateButton.setOnDateChangedListener(this);
 
+		((Button)findViewById(R.id.buLeft)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveLeft();
+			}
+		});
+		((Button)findViewById(R.id.buRight)).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				moveRight();
+			}
+		});
+		
 		leftRightGestureListener = new LeftRightGestureListener(this);
 		OnTouchListener gestureListener = new View.OnTouchListener() {
 			@Override
@@ -90,13 +104,13 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 
 	@Override
 	public void moveRight() {
-		dateButton.prevDay();
+		dateButton.nextDay();
 		loadData();
 	}
 
 	@Override
 	public void moveLeft() {
-		dateButton.nextDay();
+		dateButton.prevDay();
 		loadData();
 	}
 
