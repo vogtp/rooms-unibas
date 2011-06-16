@@ -15,12 +15,35 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.AsyncTask;
 import ch.almana.unibas.rooms.helper.Logger;
 
-public class RoomAccess {
+public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 
-	public static List<JSONObject> getRooms(long date, boolean pastEntries, String encoding) {
-		String uri = getUri("http://rooms.medizin.unibas.ch/lib/json.php", date, pastEntries, encoding);
+	public static final ArrayList<JSONObject> NO_ROOMS = new ArrayList<JSONObject>();
+
+	public interface RoomAccessCallback {
+
+		void updateProgress();
+
+		void loadingFinished(List<JSONObject> result);
+
+	}
+
+	private RoomAccessCallback callback;
+
+	public RoomAccess(RoomAccessCallback callback) {
+		super();
+		this.callback = callback;
+	}
+
+	@Override
+	protected List<JSONObject> doInBackground(Long... params) {
+		if (params.length < 1) {
+			return NO_ROOMS;
+		}
+		String uri = getUri("http://rooms.medizin.unibas.ch/lib/json.php", params[0], "ISO-8859-1");
+		publishProgress((Integer[]) null);
 		try {
 			return parseJson(uri);
 		} catch (JSONException e) {
@@ -29,16 +52,23 @@ public class RoomAccess {
 		return new ArrayList<JSONObject>();
 	}
 
-	private static String getUri(String uri, long time, boolean all, String encoding) {
+	@Override
+	protected void onPostExecute(List<JSONObject> result) {
+		super.onPostExecute(result);
+		callback.loadingFinished(result);
+	}
+
+	@Override
+	protected void onProgressUpdate(Integer... values) {
+		super.onProgressUpdate(values);
+		callback.updateProgress();
+	}
+
+	private String getUri(String uri, long time, String encoding) {
 		Logger.v("Loading >" + uri + "<");
 		long start = System.currentTimeMillis();
 		final DefaultHttpClient httpClient = new DefaultHttpClient();
 
-//		if (all) {
-//			uri = uri = "?alle=true";
-//		} else {
-//			uri = uri = "?alle=false";
-//		}
 		if (time > 1) {
 			int t = (int) (time / 1000);
 			uri = uri + "?datum=" + t;
@@ -49,12 +79,15 @@ public class RoomAccess {
 		BufferedReader content = null;
 		try {
 			HttpResponse response = httpClient.execute(request);
+			publishProgress((Integer[]) null);
 			bhe = new BufferedHttpEntity(response.getEntity());
 			content = new BufferedReader(new InputStreamReader(bhe.getContent(), encoding));
+			publishProgress((Integer[]) null);
 			String line;
 			StringBuilder sb = new StringBuilder();
 			while ((line = content.readLine()) != null) {
 				sb.append(line);
+				publishProgress((Integer[]) null);
 			}
 			return sb.toString();
 
@@ -84,13 +117,15 @@ public class RoomAccess {
 		}
 	}
 
-	private static List<JSONObject> parseJson(String payload) throws JSONException {
+	private List<JSONObject> parseJson(String payload) throws JSONException {
 		JSONArray jsonArray = new JSONArray(payload);
 		List<JSONObject> list = new ArrayList<JSONObject>();
 		for (int i = 0; i < jsonArray.length(); i++) {
+			publishProgress((Integer[]) null);
 			JSONObject object = (JSONObject) jsonArray.get(i);
 			list.add(object);
 		}
 		return list;
 	}
+
 }

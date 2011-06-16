@@ -94,4 +94,14 @@ public class DateButton extends Button {
 		}
 	}
 
+	public void nextDay() {
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+		updateText();
+	}
+
+	public void prevDay() {
+		cal.add(Calendar.DAY_OF_YEAR, -1);
+		updateText();
+	}
+
 }

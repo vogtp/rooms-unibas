@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.almana.unibas.rooms.R;
+import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.helper.Settings;
 
@@ -22,10 +23,10 @@ public class RoomAdapter extends BaseAdapter {
 	private LayoutInflater layoutInflator;
 	private List<JSONObject> entries;
 
-	public RoomAdapter(Context ctx, List<JSONObject> entries) {
+	public RoomAdapter(Context ctx) {
 		super();
 		layoutInflator = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		this.entries = entries;
+		this.entries = RoomAccess.NO_ROOMS;
 	}
 
 	@Override
@@ -72,5 +73,12 @@ public class RoomAdapter extends BaseAdapter {
 	private View createView(ViewGroup parent) {
 		View item = (View) layoutInflator.inflate(R.layout.room_item, parent, false);
 		return item;
+	}
+
+	public void setData(List<JSONObject> rooms) {
+		if (rooms == null) {
+			entries = RoomAccess.NO_ROOMS;
+		}
+		entries = rooms;
 	}
 }
