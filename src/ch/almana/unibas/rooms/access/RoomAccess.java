@@ -17,22 +17,24 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import ch.almana.unibas.rooms.helper.Logger;
+import ch.almana.unibas.rooms.model.IRoomModel;
+import ch.almana.unibas.rooms.model.RoomModel;
 
-public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
+public class RoomAccess extends AsyncTask<Long, Integer, List<IRoomModel>> {
 
-	public static List<JSONObject> NO_ROOMS = new ArrayList<JSONObject>(1);
-	public static List<JSONObject> LOADING_ROOMS = new ArrayList<JSONObject>(1);
+	public static List<IRoomModel> NO_ROOMS = new ArrayList<IRoomModel>(1);
+	public static List<IRoomModel> LOADING_ROOMS = new ArrayList<IRoomModel>(1);
 
 	static {
-		NO_ROOMS.add(new JSONObject());
-		LOADING_ROOMS.add(new JSONObject());
+		NO_ROOMS.add(new RoomModel());
+		LOADING_ROOMS.add(new RoomModel());
 	}
 
 	public interface RoomAccessCallback {
 
 		void updateProgress();
 
-		void loadingFinished(List<JSONObject> result);
+		void loadingFinished(List<IRoomModel> result);
 
 	}
 
@@ -44,7 +46,7 @@ public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 	}
 
 	@Override
-	protected List<JSONObject> doInBackground(Long... params) {
+	protected List<IRoomModel> doInBackground(Long... params) {
 		if (params.length < 1) {
 			return NO_ROOMS;
 		}
@@ -55,11 +57,11 @@ public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 		} catch (JSONException e) {
 			Logger.e("Cannot get rooms", e);
 		}
-		return new ArrayList<JSONObject>();
+		return new ArrayList<IRoomModel>();
 	}
 
 	@Override
-	protected void onPostExecute(List<JSONObject> result) {
+	protected void onPostExecute(List<IRoomModel> result) {
 		super.onPostExecute(result);
 		callback.loadingFinished(result);
 	}
@@ -123,16 +125,16 @@ public class RoomAccess extends AsyncTask<Long, Integer, List<JSONObject>> {
 		}
 	}
 
-	private List<JSONObject> parseJson(String payload) throws JSONException {
+	private List<IRoomModel> parseJson(String payload) throws JSONException {
 		JSONArray jsonArray = new JSONArray(payload);
 		if (jsonArray.length() < 1) {
 			return NO_ROOMS;
 		}
-		List<JSONObject> list = new ArrayList<JSONObject>();
+		List<IRoomModel> list = new ArrayList<IRoomModel>();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			publishProgress((Integer[]) null);
-			JSONObject object = (JSONObject) jsonArray.get(i);
-			list.add(object);
+			JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+			list.add(new RoomModel(jsonObject));
 		}
 		return list;
 	}

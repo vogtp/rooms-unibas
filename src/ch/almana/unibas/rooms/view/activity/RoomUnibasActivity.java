@@ -2,8 +2,6 @@ package ch.almana.unibas.rooms.view.activity;
 
 import java.util.List;
 
-import org.json.JSONObject;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -15,6 +13,7 @@ import android.widget.Button;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomAccess.RoomAccessCallback;
+import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
 import ch.almana.unibas.rooms.view.gestures.IGestureReceiver;
 import ch.almana.unibas.rooms.view.gestures.LeftRightGestureListener;
@@ -90,7 +89,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	}
 
 	@Override
-	public void loadingFinished(List<JSONObject> result) {
+	public void loadingFinished(List<IRoomModel> result) {
 		if (result.size() > 0) {
 			updateAdapter(result);
 		} else {
@@ -100,7 +99,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		progress = 0;
 	}
 
-	private void updateAdapter(List<JSONObject> result) {
+	private void updateAdapter(List<IRoomModel> result) {
 		roomAdapter.setData(result);
 		getListView().setAdapter(roomAdapter);
 	}

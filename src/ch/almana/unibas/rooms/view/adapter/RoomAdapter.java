@@ -1,10 +1,6 @@
 package ch.almana.unibas.rooms.view.adapter;
 
-import java.util.Date;
 import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,14 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
-import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.helper.Settings;
+import ch.almana.unibas.rooms.model.IRoomModel;
 
 public class RoomAdapter extends BaseAdapter {
 
-
 	private LayoutInflater layoutInflator;
-	private List<JSONObject> entries;
+	private List<IRoomModel> entries;
 
 	public RoomAdapter(Context ctx) {
 		super();
@@ -60,19 +55,14 @@ public class RoomAdapter extends BaseAdapter {
 			return (View) layoutInflator.inflate(R.layout.room_item_noevents, parent, false);
 		}
 		View view = (convertView != null) ? convertView : createView(parent);
-		JSONObject room = entries.get(position);
+		IRoomModel room = entries.get(position);
 		Settings settings = Settings.getInstance();
-		try {
-			Date date = new Date(room.getLong("starttime") * 1000);
-			((TextView) view.findViewById(R.id.tvTime)).setText(settings.getTimeFormat().format(date));
-			// ((TextView)
-			// view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
-			((TextView) view.findViewById(R.id.tvRoom)).setText(room.getString("room"));
-			((TextView) view.findViewById(R.id.tvLecturer)).setText(room.getString("teacher"));
-			((TextView) view.findViewById(R.id.tvTitle)).setText(room.getString("reservation_name"));
-		} catch (JSONException e) {
-			Logger.e("Cannot access JSON", e);
-		}
+		((TextView) view.findViewById(R.id.tvTime)).setText(room.getStarttime());
+		// ((TextView)
+		// view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
+		((TextView) view.findViewById(R.id.tvRoom)).setText(room.getRoom());
+		((TextView) view.findViewById(R.id.tvLecturer)).setText(room.getLecturer());
+		((TextView) view.findViewById(R.id.tvTitle)).setText(room.getTitle());
 		return view;
 	}
 
@@ -81,7 +71,7 @@ public class RoomAdapter extends BaseAdapter {
 		return item;
 	}
 
-	public void setData(List<JSONObject> rooms) {
+	public void setData(List<IRoomModel> rooms) {
 		if (rooms == null) {
 			entries = RoomAccess.NO_ROOMS;
 		}
