@@ -12,7 +12,8 @@ import android.view.Window;
 import android.widget.Button;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
-import ch.almana.unibas.rooms.access.RoomAccess.RoomAccessCallback;
+import ch.almana.unibas.rooms.access.RoomLoaderTask;
+import ch.almana.unibas.rooms.access.RoomLoaderTask.RoomAccessCallback;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
 import ch.almana.unibas.rooms.view.gestures.IGestureReceiver;
@@ -26,7 +27,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	private LeftRightGestureListener leftRightGestureListener;
 	private RoomAdapter roomAdapter;
 	private int progress = 0;
-	private RoomAccess roomAccess;
+	private RoomLoaderTask roomLoaderTask;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -72,14 +73,14 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 
 	private void loadData() {
 		if (progress > 0) {
-			roomAccess.cancel(true);
+			roomLoaderTask.cancel(true);
 		}
 		updateAdapter(RoomAccess.LOADING_ROOMS);
-		roomAccess = new RoomAccess(this);
+		roomLoaderTask = new RoomLoaderTask(this);
 		setProgressBarVisibility(true);
 		progress = 1000;
 		updateProgress();
-		roomAccess.execute(dateButton.getDate());
+		roomLoaderTask.execute(dateButton.getDate());
 	}
 
 	@Override

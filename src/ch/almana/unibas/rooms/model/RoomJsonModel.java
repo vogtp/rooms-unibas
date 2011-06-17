@@ -8,17 +8,17 @@ import org.json.JSONObject;
 import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.helper.Settings;
 
-public class RoomModel implements IRoomModel {
+public class RoomJsonModel implements IRoomModel {
 
 	private static final CharSequence NO_VALUE = "n.a.";
 	private JSONObject room;
 
-	public RoomModel() {
+	public RoomJsonModel() {
 		super();
 		this.room = new JSONObject();
 	}
 
-	public RoomModel(JSONObject jsonObject) {
+	public RoomJsonModel(JSONObject jsonObject) {
 		super();
 		this.room = jsonObject;
 	}

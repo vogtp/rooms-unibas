@@ -11,91 +11,61 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import android.os.AsyncTask;
 import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.model.IRoomModel;
-import ch.almana.unibas.rooms.model.RoomModel;
+import ch.almana.unibas.rooms.model.RoomJsonModel;
 
-public class RoomAccess extends AsyncTask<Long, Integer, List<IRoomModel>> {
+public abstract class RoomAccess {
 
 	public static List<IRoomModel> NO_ROOMS = new ArrayList<IRoomModel>(1);
 	public static List<IRoomModel> LOADING_ROOMS = new ArrayList<IRoomModel>(1);
 
 	static {
-		NO_ROOMS.add(new RoomModel());
-		LOADING_ROOMS.add(new RoomModel());
+		NO_ROOMS.add(new RoomJsonModel());
+		LOADING_ROOMS.add(new RoomJsonModel());
 	}
 
-	public interface RoomAccessCallback {
+	protected RoomLoaderTask loaderTask;
 
-		void updateProgress();
-
-		void loadingFinished(List<IRoomModel> result);
-
-	}
-
-	private RoomAccessCallback callback;
-
-	public RoomAccess(RoomAccessCallback callback) {
+	
+	public RoomAccess(RoomLoaderTask roomLoaderTask) {
 		super();
-		this.callback = callback;
+		this.loaderTask = roomLoaderTask;
 	}
 
-	@Override
-	protected List<IRoomModel> doInBackground(Long... params) {
-		if (params.length < 1) {
-			return NO_ROOMS;
-		}
-		String uri = getUri("http://rooms.medizin.unibas.ch/lib/json.php", params[0], "ISO-8859-1");
-		publishProgress((Integer[]) null);
-		try {
-			return parseJson(uri);
-		} catch (JSONException e) {
-			Logger.e("Cannot get rooms", e);
-		}
-		return new ArrayList<IRoomModel>();
+	protected abstract String getEncoding();
+
+	protected abstract String buildUrl(long time);
+
+	protected abstract List<IRoomModel> parse(String payLoad);
+
+	public List<IRoomModel> getData(long time) {
+			String payLoad = getUri(time);
+			return parse(payLoad);
 	}
 
-	@Override
-	protected void onPostExecute(List<IRoomModel> result) {
-		super.onPostExecute(result);
-		callback.loadingFinished(result);
-	}
 
-	@Override
-	protected void onProgressUpdate(Integer... values) {
-		super.onProgressUpdate(values);
-		callback.updateProgress();
-	}
-
-	private String getUri(String uri, long time, String encoding) {
+	private String getUri(long time) {
+		String uri = buildUrl(time);
 		Logger.v("Loading >" + uri + "<");
 		long start = System.currentTimeMillis();
 		final DefaultHttpClient httpClient = new DefaultHttpClient();
-
-		if (time > 1) {
-			int t = (int) (time / 1000);
-			uri = uri + "?datum=" + t;
-		}
 
 		HttpUriRequest request = new HttpGet(uri);
 		BufferedHttpEntity bhe = null;
 		BufferedReader content = null;
 		try {
 			HttpResponse response = httpClient.execute(request);
-			publishProgress((Integer[]) null);
+			loaderTask.updateProgress();
 			bhe = new BufferedHttpEntity(response.getEntity());
-			content = new BufferedReader(new InputStreamReader(bhe.getContent(), encoding));
-			publishProgress((Integer[]) null);
+			content = new BufferedReader(new InputStreamReader(bhe.getContent(), getEncoding()));
+			loaderTask.updateProgress();
 			String line;
 			StringBuilder sb = new StringBuilder();
 			while ((line = content.readLine()) != null) {
 				sb.append(line);
-				publishProgress((Integer[]) null);
+				loaderTask.updateProgress();
 			}
 			return sb.toString();
 
@@ -123,20 +93,6 @@ public class RoomAccess extends AsyncTask<Long, Integer, List<IRoomModel>> {
 			duration /= 1000l;
 			Logger.d(" search " + duration + " s");
 		}
-	}
-
-	private List<IRoomModel> parseJson(String payload) throws JSONException {
-		JSONArray jsonArray = new JSONArray(payload);
-		if (jsonArray.length() < 1) {
-			return NO_ROOMS;
-		}
-		List<IRoomModel> list = new ArrayList<IRoomModel>();
-		for (int i = 0; i < jsonArray.length(); i++) {
-			publishProgress((Integer[]) null);
-			JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-			list.add(new RoomModel(jsonObject));
-		}
-		return list;
 	}
 
 }
