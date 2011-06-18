@@ -24,8 +24,13 @@ public class RoomLoaderTask extends AsyncTask<Long, Integer, List<IRoomModel>> {
 		if (params.length < 1) {
 			return RoomAccess.NO_ROOMS;
 		}
-		RoomJsonAccess roomJsonAccess = new RoomJsonAccess(this);
-		return roomJsonAccess.getData(params[0]);
+		RoomAccess roomAccess;
+		if (false) {
+			roomAccess = new RoomXmlAccess(this);
+		} else {
+			roomAccess = new RoomJsonAccess(this);
+		}
+		return roomAccess.getRoomModels(params[0]);
 	}
 
 	@Override

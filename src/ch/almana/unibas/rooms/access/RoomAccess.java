@@ -2,6 +2,7 @@ package ch.almana.unibas.rooms.access;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,28 +39,34 @@ public abstract class RoomAccess {
 
 	protected abstract String buildUrl(long time);
 
-	protected abstract List<IRoomModel> parse(String payLoad);
+	public abstract List<IRoomModel> getRoomModels(long time);
 
-	public List<IRoomModel> getData(long time) {
-			String payLoad = getUri(time);
-			return parse(payLoad);
-	}
-
-
-	private String getUri(long time) {
+	protected InputStream getDataAsStream(long time) throws IOException {
 		String uri = buildUrl(time);
 		Logger.v("Loading >" + uri + "<");
-		long start = System.currentTimeMillis();
 		final DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		HttpUriRequest request = new HttpGet(uri);
 		BufferedHttpEntity bhe = null;
+		HttpResponse response = httpClient.execute(request);
+		loaderTask.updateProgress();
+		bhe = new BufferedHttpEntity(response.getEntity());
+
+		// TODO is this needed
+		// if (bhe != null) {
+		// try {
+		// bhe.consumeContent();
+		// } catch (IOException e) {
+		// Logger.e("Error closing");
+		// }
+		// }
+		return bhe.getContent();
+	}
+
+	protected String getDataAsString(long time) throws IOException {
 		BufferedReader content = null;
 		try {
-			HttpResponse response = httpClient.execute(request);
-			loaderTask.updateProgress();
-			bhe = new BufferedHttpEntity(response.getEntity());
-			content = new BufferedReader(new InputStreamReader(bhe.getContent(), getEncoding()));
+			content = new BufferedReader(new InputStreamReader(getDataAsStream(time), getEncoding()));
 			loaderTask.updateProgress();
 			String line;
 			StringBuilder sb = new StringBuilder();
@@ -69,18 +76,7 @@ public abstract class RoomAccess {
 			}
 			return sb.toString();
 
-		} catch (Exception e) {
-			Logger.e("Error", e);
-			return "";
 		} finally {
-
-			if (bhe != null) {
-				try {
-					bhe.consumeContent();
-				} catch (IOException e) {
-					Logger.e("Error closing");
-				}
-			}
 			if (content != null) {
 				try {
 					content.close();
@@ -89,9 +85,6 @@ public abstract class RoomAccess {
 				}
 			}
 
-			long duration = System.currentTimeMillis() - start;
-			duration /= 1000l;
-			Logger.d(" search " + duration + " s");
 		}
 	}
 

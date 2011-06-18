@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import ch.almana.unibas.rooms.helper.Logger;
@@ -34,13 +33,14 @@ public class RoomJsonAccess extends RoomAccess {
 	}
 
 	@Override
-	protected List<IRoomModel> parse(String payload) {
+	public List<IRoomModel> getRoomModels(long time) {
 		try {
+			String payload = getDataAsString(time);
 			JSONArray jsonArray = new JSONArray(payload);
 			if (jsonArray.length() < 1) {
 				return RoomAccess.NO_ROOMS;
 			}
-			List<IRoomModel> list = new ArrayList<IRoomModel>();
+			List<IRoomModel> list = new ArrayList<IRoomModel>(jsonArray.length());
 			for (int i = 0; i < jsonArray.length(); i++) {
 				loaderTask.updateProgress();
 				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
@@ -48,10 +48,10 @@ public class RoomJsonAccess extends RoomAccess {
 			}
 			return list;
 
-		} catch (JSONException e) {
-			Logger.e("Cannot get rooms", e);
+		} catch (Exception e) {
+			Logger.e("Cannot get rooms from json", e);
+			return NO_ROOMS;
 		}
-		return new ArrayList<IRoomModel>();
 	}
 
 }
