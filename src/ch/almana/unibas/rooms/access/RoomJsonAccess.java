@@ -37,11 +37,12 @@ public class RoomJsonAccess extends RoomAccess {
 		try {
 			String payload = getDataAsString(time);
 			JSONArray jsonArray = new JSONArray(payload);
-			if (jsonArray.length() < 1) {
+			int length = jsonArray.length();
+			if (length < 1) {
 				return RoomAccess.NO_ROOMS;
 			}
-			List<IRoomModel> list = new ArrayList<IRoomModel>(jsonArray.length());
-			for (int i = 0; i < jsonArray.length(); i++) {
+			List<IRoomModel> list = new ArrayList<IRoomModel>(length);
+			for (int i = 0; i < length; i++) {
 				loaderTask.updateProgress();
 				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 				list.add(new RoomJsonModel(jsonObject));
