@@ -16,7 +16,7 @@ import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.model.RoomXmlModel;
 
-public class RoomXmlAccess extends RoomAccess {
+public class RoomAccessRaumDispo extends RoomAccess {
 
 	// <event><time>10:00</time><title>Funktionelle
 	// Neuroanatomie</title><lecturer>Pasquale Calabrese, Iris-Katharina
@@ -31,7 +31,7 @@ public class RoomXmlAccess extends RoomAccess {
 	public static final String TAG_TITLE = "title";
 	public static final String TAG_BUILDING = "building";
 
-	public RoomXmlAccess(RoomLoaderTask roomLoaderTask) {
+	public RoomAccessRaumDispo(RoomLoaderTask roomLoaderTask) {
 		super(roomLoaderTask);
 	}
 
@@ -49,9 +49,9 @@ public class RoomXmlAccess extends RoomAccess {
 
 
 	@Override
-	public List<IRoomModel> getRoomModels(long time) {
+	public List<IRoomModel> getRoomModels(SearchConfig searchConfig) {
 		try {
-			Document document = getDocument(getDataAsStream(time));
+			Document document = getDocument(getDataAsStream(searchConfig.getTimeInMillis()));
 			NodeList eventNodesList = document.getElementsByTagName(TAG_EVENT);
 			int length = eventNodesList.getLength();
 			if (length < 1) {

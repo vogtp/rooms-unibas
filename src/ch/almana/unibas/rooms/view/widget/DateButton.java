@@ -11,16 +11,16 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import ch.almana.unibas.rooms.helper.Settings;
+import ch.almana.unibas.rooms.access.SearchConfig;
 
 public class DateButton extends Button {
 
-	private Calendar cal;
+	private SearchConfig searchConfig;
 	private List<OnDateChangedListener> dateChangedListeners;
 
 	public interface OnDateChangedListener {
 
-		void dateChanged(long date);
+		void searchConfigChanged(SearchConfig searchConfig);
 
 	}
 
@@ -40,8 +40,6 @@ public class DateButton extends Button {
 	}
 
 	private void init() {
-		setDate(System.currentTimeMillis());
-
 		setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -49,36 +47,30 @@ public class DateButton extends Button {
 				OnDateSetListener callBack = new OnDateSetListener() {
 					@Override
 					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						cal.set(Calendar.YEAR, year);
-						cal.set(Calendar.MONTH, monthOfYear);
-						cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+						searchConfig.set(Calendar.YEAR, year);
+						searchConfig.set(Calendar.MONTH, monthOfYear);
+						searchConfig.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 						fireDateChanged();
 					}
 				};
-				DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callBack, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+				DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callBack, searchConfig.get(Calendar.YEAR), searchConfig.get(Calendar.MONTH),
+						searchConfig.get(Calendar.DAY_OF_MONTH));
 				datePickerDialog.show();
 			}
 		});
 	}
 
-	public long getDate() {
-		return cal.getTimeInMillis();
+	public SearchConfig getSearchConfig() {
+		return searchConfig;
 	}
 
-	public void setDate(long time) {
-
-		cal = Calendar.getInstance();
-		cal.setTimeInMillis(time);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-
+	public void setSearchConfig(SearchConfig sc) {
+		searchConfig = sc;
 		updateText();
 	}
 
 	private void updateText() {
-		setText(Settings.getInstance().getDateFormat().format(getDate()));
+		setText(searchConfig.getDateTimeFormated());
 	}
 
 	public void setOnDateChangedListener(OnDateChangedListener listener) {
@@ -91,17 +83,17 @@ public class DateButton extends Button {
 	private void fireDateChanged() {
 		updateText();
 		for (OnDateChangedListener listener : dateChangedListeners) {
-			listener.dateChanged(getDate());
+			listener.searchConfigChanged(searchConfig);
 		}
 	}
 
-	public void nextDay() {
-		cal.add(Calendar.DAY_OF_YEAR, 1);
+	public void moveNext() {
+		searchConfig.moveNext();
 		updateText();
 	}
 
-	public void prevDay() {
-		cal.add(Calendar.DAY_OF_YEAR, -1);
+	public void movePref() {
+		searchConfig.movePref();
 		updateText();
 	}
 

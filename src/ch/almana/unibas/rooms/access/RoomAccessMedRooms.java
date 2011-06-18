@@ -1,6 +1,7 @@
 package ch.almana.unibas.rooms.access;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -10,9 +11,9 @@ import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.model.RoomJsonModel;
 
-public class RoomJsonAccess extends RoomAccess {
+public class RoomAccessMedRooms extends RoomAccess {
 
-	public RoomJsonAccess(RoomLoaderTask roomLoaderTask) {
+	public RoomAccessMedRooms(RoomLoaderTask roomLoaderTask) {
 		super(roomLoaderTask);
 	}
 
@@ -33,9 +34,14 @@ public class RoomJsonAccess extends RoomAccess {
 	}
 
 	@Override
-	public List<IRoomModel> getRoomModels(long time) {
+	public List<IRoomModel> getRoomModels(SearchConfig searchConfig) {
 		try {
-			String payload = getDataAsString(time);
+			Calendar cal = searchConfig.getCalendar();
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			String payload = getDataAsString(cal.getTimeInMillis());
 			JSONArray jsonArray = new JSONArray(payload);
 			int length = jsonArray.length();
 			if (length < 1) {

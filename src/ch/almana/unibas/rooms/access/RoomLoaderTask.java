@@ -5,7 +5,7 @@ import java.util.List;
 import android.os.AsyncTask;
 import ch.almana.unibas.rooms.model.IRoomModel;
 
-public class RoomLoaderTask extends AsyncTask<Long, Integer, List<IRoomModel>> {
+public class RoomLoaderTask extends AsyncTask<SearchConfig, Integer, List<IRoomModel>> {
 	public interface RoomAccessCallback {
 		void updateProgress();
 
@@ -20,17 +20,25 @@ public class RoomLoaderTask extends AsyncTask<Long, Integer, List<IRoomModel>> {
 	}
 
 	@Override
-	protected List<IRoomModel> doInBackground(Long... params) {
+	protected List<IRoomModel> doInBackground(SearchConfig... params) {
 		if (params.length < 1) {
 			return RoomAccess.NO_ROOMS;
 		}
 		RoomAccess roomAccess;
-		if (true) {
-			roomAccess = new RoomXmlAccess(this);
-		} else {
-			roomAccess = new RoomJsonAccess(this);
+		SearchConfig searchConfig = params[0];
+		
+		switch (searchConfig.getRoomAccessType()) {
+		case MedRooms:
+			roomAccess = new RoomAccessMedRooms(this);
+			break;
+		case RaumDispo:
+			roomAccess = new RoomAccessRaumDispo(this);
+			break;
+		default:
+			return RoomAccess.UNKNOWN_BUILDING;
 		}
-		return roomAccess.getRoomModels(params[0]);
+
+		return roomAccess.getRoomModels(searchConfig);
 	}
 
 	@Override

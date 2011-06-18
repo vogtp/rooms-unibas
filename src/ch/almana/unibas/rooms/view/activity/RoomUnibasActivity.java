@@ -14,6 +14,7 @@ import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomLoaderTask;
 import ch.almana.unibas.rooms.access.RoomLoaderTask.RoomAccessCallback;
+import ch.almana.unibas.rooms.access.SearchConfig;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
 import ch.almana.unibas.rooms.view.gestures.IGestureReceiver;
@@ -62,7 +63,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		getListView().setOnTouchListener(gestureListener);
 		roomAdapter = new RoomAdapter(this);
 		getListView().setAdapter(roomAdapter);
-
+		dateButton.setSearchConfig(new SearchConfig(SearchConfig.BUILDING_LZM));
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		setProgressBarVisibility(true);
 		progress = 1000;
 		updateProgress();
-		roomLoaderTask.execute(dateButton.getDate());
+		roomLoaderTask.execute(dateButton.getSearchConfig());
 	}
 
 	@Override
@@ -106,19 +107,19 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	}
 
 	@Override
-	public void dateChanged(long date) {
-		loadData();
-	}
-
-	@Override
 	public void moveRight() {
-		dateButton.nextDay();
+		dateButton.moveNext();
 		loadData();
 	}
 
 	@Override
 	public void moveLeft() {
-		dateButton.prevDay();
+		dateButton.movePref();
+		loadData();
+	}
+
+	@Override
+	public void searchConfigChanged(SearchConfig searchConfig) {
 		loadData();
 	}
 

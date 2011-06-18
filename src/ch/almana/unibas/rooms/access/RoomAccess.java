@@ -19,16 +19,18 @@ import ch.almana.unibas.rooms.model.RoomJsonModel;
 
 public abstract class RoomAccess {
 
-	public static List<IRoomModel> NO_ROOMS = new ArrayList<IRoomModel>(1);
-	public static List<IRoomModel> LOADING_ROOMS = new ArrayList<IRoomModel>(1);
+	public static final List<IRoomModel> UNKNOWN_BUILDING = new ArrayList<IRoomModel>(1);
+	public static final List<IRoomModel> NO_ROOMS = new ArrayList<IRoomModel>(1);
+	public static final List<IRoomModel> LOADING_ROOMS = new ArrayList<IRoomModel>(1);
 
 	static {
-		NO_ROOMS.add(new RoomJsonModel());
-		LOADING_ROOMS.add(new RoomJsonModel());
+		RoomJsonModel dummyModel = new RoomJsonModel();
+		NO_ROOMS.add(dummyModel);
+		LOADING_ROOMS.add(dummyModel);
+		UNKNOWN_BUILDING.add(dummyModel);
 	}
 
 	protected RoomLoaderTask loaderTask;
-
 	
 	public RoomAccess(RoomLoaderTask roomLoaderTask) {
 		super();
@@ -39,7 +41,7 @@ public abstract class RoomAccess {
 
 	protected abstract String buildUrl(long time);
 
-	public abstract List<IRoomModel> getRoomModels(long time);
+	public abstract List<IRoomModel> getRoomModels(SearchConfig params);
 
 	protected InputStream getDataAsStream(long time) throws IOException {
 		String uri = buildUrl(time);

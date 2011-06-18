@@ -3,7 +3,7 @@ package ch.almana.unibas.rooms.model;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import ch.almana.unibas.rooms.access.RoomXmlAccess;
+import ch.almana.unibas.rooms.access.RoomAccessRaumDispo;
 import ch.almana.unibas.rooms.helper.Logger;
 
 public class RoomXmlModel implements IRoomModel {
@@ -21,19 +21,19 @@ public class RoomXmlModel implements IRoomModel {
 		for (int i = 0; i < valueNodes.getLength(); i++) {
 			Node item = valueNodes.item(i);
 			String name = item.getNodeName();
-			if (RoomXmlAccess.TAG_ROOM.equals(name)) {
+			if (RoomAccessRaumDispo.TAG_ROOM.equals(name)) {
 				room = getValue(item);
 			}
-			if (RoomXmlAccess.TAG_TIME.equals(name)) {
+			if (RoomAccessRaumDispo.TAG_TIME.equals(name)) {
 				starttimeString = getValue(item);
 			}
-			if (RoomXmlAccess.TAG_LECTURER.equals(name)) {
+			if (RoomAccessRaumDispo.TAG_LECTURER.equals(name)) {
 				lecturer = getValue(item);
 			}
-			if (RoomXmlAccess.TAG_TITLE.equals(name)) {
+			if (RoomAccessRaumDispo.TAG_TITLE.equals(name)) {
 				title = getValue(item);
 			}
-			if (RoomXmlAccess.TAG_BUILDING.equals(name)) {
+			if (RoomAccessRaumDispo.TAG_BUILDING.equals(name)) {
 				building = getValue(item);
 			}
 		}
