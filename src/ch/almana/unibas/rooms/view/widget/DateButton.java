@@ -6,11 +6,14 @@ import java.util.List;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 import ch.almana.unibas.rooms.access.SearchConfig;
 
 public class DateButton extends Button {
@@ -41,7 +44,6 @@ public class DateButton extends Button {
 
 	private void init() {
 		setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				OnDateSetListener callBack = new OnDateSetListener() {
@@ -50,12 +52,35 @@ public class DateButton extends Button {
 						searchConfig.set(Calendar.YEAR, year);
 						searchConfig.set(Calendar.MONTH, monthOfYear);
 						searchConfig.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-						fireDateChanged();
+						if (searchConfig.isSetTime()) {
+							OnTimeSetListener timeCallBack = new OnTimeSetListener() {
+								@Override
+								public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+									searchConfig.set(Calendar.HOUR_OF_DAY, hourOfDay);
+									searchConfig.set(Calendar.MINUTE, minute);
+									fireDateChanged();
+								}
+							};
+							TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeCallBack, searchConfig.get(Calendar.HOUR_OF_DAY),
+									searchConfig.get(Calendar.MINUTE), true);
+							timePickerDialog.show();
+						} else {
+							fireDateChanged();
+						}
 					}
 				};
 				DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callBack, searchConfig.get(Calendar.YEAR), searchConfig.get(Calendar.MONTH),
 						searchConfig.get(Calendar.DAY_OF_MONTH));
 				datePickerDialog.show();
+			}
+		});
+		setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				searchConfig.setTimeInMillis(System.currentTimeMillis());
+				fireDateChanged();
+				return true;
 			}
 		});
 	}

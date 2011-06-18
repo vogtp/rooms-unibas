@@ -1,6 +1,5 @@
 package ch.almana.unibas.rooms.view.activity;
 
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -10,7 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.Spinner;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomLoaderTask;
@@ -30,6 +32,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	private RoomAdapter roomAdapter;
 	private int progress = 0;
 	private RoomLoaderTask roomLoaderTask;
+	private Spinner spBuilding;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -38,6 +41,22 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.room_list);
 
+		spBuilding = (Spinner) findViewById(R.id.spBuilding);
+		spBuilding.setAdapter(SearchConfig.getBuildingAdapter(this));
+		spBuilding.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				SearchConfig sc = (SearchConfig) spBuilding.getAdapter().getItem(position);
+				sc.setTimeInMillis(dateButton.getSearchConfig().getTimeInMillis());
+				dateButton.setSearchConfig(sc);
+				loadData();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		
 		dateButton = (DateButton) findViewById(R.id.dateButton1);
 		dateButton.setOnDateChangedListener(this);
 
@@ -64,25 +83,12 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		getListView().setOnTouchListener(gestureListener);
 		roomAdapter = new RoomAdapter(this);
 		getListView().setAdapter(roomAdapter);
-		SearchConfig searchConfig;
-		if (true) {
-			searchConfig = new SearchConfig(SearchConfig.BUILDING_KOLLEGIENHAUS);
-			// "2008-12-19 10:00:00"
-			searchConfig.set(Calendar.YEAR, 2008);
-			searchConfig.set(Calendar.MONTH, 11);
-			searchConfig.set(Calendar.DAY_OF_MONTH, 19);
-			searchConfig.set(Calendar.HOUR_OF_DAY, 10);
-			searchConfig.set(Calendar.MINUTE, 0);
-			searchConfig.set(Calendar.SECOND, 0);
-			searchConfig.set(Calendar.MILLISECOND, 0);
-		} else {
-			searchConfig = new SearchConfig(SearchConfig.BUILDING_LZM);
-		}
-		dateButton.setSearchConfig(searchConfig);
+
 	}
 
 	@Override
 	protected void onResume() {
+		dateButton.setSearchConfig((SearchConfig) spBuilding.getSelectedItem());
 		loadData();
 		super.onResume();
 	}
