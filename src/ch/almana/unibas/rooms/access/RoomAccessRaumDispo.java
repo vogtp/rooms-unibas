@@ -1,6 +1,7 @@
 package ch.almana.unibas.rooms.access;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	// Penner</lecturer><building>Kollegienhaus</building><room>Hörsaal
 	// 114</room><code>11475-01</code></event>
 
+	private static final String URL_RAUMDISPO = "http://beta2.nextron.ch/unibas_raumdispo/api/";
 	private static final String TAG_EVENTS = "events";
 	private static final String TAG_EVENT = "event";
 	public static final String TAG_ROOM = "room";
@@ -30,6 +32,8 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	public static final String TAG_LECTURER = "lecturer";
 	public static final String TAG_TITLE = "title";
 	public static final String TAG_BUILDING = "building";
+
+	private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 	public RoomAccessRaumDispo(RoomLoaderTask roomLoaderTask) {
 		super(roomLoaderTask);
@@ -41,17 +45,19 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	}
 
 	@Override
-	protected String buildUrl(long time) {
-		String date = "2008-12-19 10:00:00";
-		String url = "http://beta2.nextron.ch/unibas_raumdispo/api/?pid=1&ct=";
-		return url + Uri.encode(date);
+	protected String buildUrl(SearchConfig searchConfig) {
+		String date = requestDateFormat.format(searchConfig.getTimeInMillis());
+		StringBuilder url = new StringBuilder(URL_RAUMDISPO);
+		url.append("?pid=").append(searchConfig.getBuilding());
+		url.append("&ct=").append(Uri.encode(date));
+		return url.toString();
 	}
 
 
 	@Override
 	public List<IRoomModel> getRoomModels(SearchConfig searchConfig) {
 		try {
-			Document document = getDocument(getDataAsStream(searchConfig.getTimeInMillis()));
+			Document document = getDocument(getDataAsStream(searchConfig));
 			NodeList eventNodesList = document.getElementsByTagName(TAG_EVENT);
 			int length = eventNodesList.getLength();
 			if (length < 1) {

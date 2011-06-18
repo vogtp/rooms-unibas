@@ -6,6 +6,8 @@ import ch.almana.unibas.rooms.helper.Settings;
 
 public class SearchConfig {
 
+	public final static int BUILDING_KOLLEGIENHAUS = 1;
+	public final static int BUILDING_BIOZ = 12;
 	public final static int BUILDING_LZM = -10;
 
 	public enum RoomAccessType {

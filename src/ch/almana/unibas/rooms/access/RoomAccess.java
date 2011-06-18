@@ -39,12 +39,12 @@ public abstract class RoomAccess {
 
 	protected abstract String getEncoding();
 
-	protected abstract String buildUrl(long time);
+	protected abstract String buildUrl(SearchConfig searchConfig);
 
-	public abstract List<IRoomModel> getRoomModels(SearchConfig params);
+	public abstract List<IRoomModel> getRoomModels(SearchConfig searchConfig);
 
-	protected InputStream getDataAsStream(long time) throws IOException {
-		String uri = buildUrl(time);
+	protected InputStream getDataAsStream(SearchConfig searchConfig) throws IOException {
+		String uri = buildUrl(searchConfig);
 		Logger.v("Loading >" + uri + "<");
 		final DefaultHttpClient httpClient = new DefaultHttpClient();
 
@@ -65,10 +65,10 @@ public abstract class RoomAccess {
 		return bhe.getContent();
 	}
 
-	protected String getDataAsString(long time) throws IOException {
+	protected String getDataAsString(SearchConfig searchConfig) throws IOException {
 		BufferedReader content = null;
 		try {
-			content = new BufferedReader(new InputStreamReader(getDataAsStream(time), getEncoding()));
+			content = new BufferedReader(new InputStreamReader(getDataAsStream(searchConfig), getEncoding()));
 			loaderTask.updateProgress();
 			String line;
 			StringBuilder sb = new StringBuilder();

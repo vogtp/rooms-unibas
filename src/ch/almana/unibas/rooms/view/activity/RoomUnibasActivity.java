@@ -1,5 +1,6 @@
 package ch.almana.unibas.rooms.view.activity;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -63,7 +64,21 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		getListView().setOnTouchListener(gestureListener);
 		roomAdapter = new RoomAdapter(this);
 		getListView().setAdapter(roomAdapter);
-		dateButton.setSearchConfig(new SearchConfig(SearchConfig.BUILDING_LZM));
+		SearchConfig searchConfig;
+		if (true) {
+			searchConfig = new SearchConfig(SearchConfig.BUILDING_KOLLEGIENHAUS);
+			// "2008-12-19 10:00:00"
+			searchConfig.set(Calendar.YEAR, 2008);
+			searchConfig.set(Calendar.MONTH, 11);
+			searchConfig.set(Calendar.DAY_OF_MONTH, 19);
+			searchConfig.set(Calendar.HOUR_OF_DAY, 10);
+			searchConfig.set(Calendar.MINUTE, 0);
+			searchConfig.set(Calendar.SECOND, 0);
+			searchConfig.set(Calendar.MILLISECOND, 0);
+		} else {
+			searchConfig = new SearchConfig(SearchConfig.BUILDING_LZM);
+		}
+		dateButton.setSearchConfig(searchConfig);
 	}
 
 	@Override

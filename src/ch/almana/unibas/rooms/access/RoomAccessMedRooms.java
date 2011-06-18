@@ -23,25 +23,24 @@ public class RoomAccessMedRooms extends RoomAccess {
 	}
 
 	@Override
-	protected String buildUrl(long time) {
+	protected String buildUrl(SearchConfig searchConfig) {
 		String uri = "http://rooms.medizin.unibas.ch/lib/json.php";
 
-		if (time > 1) {
-			int t = (int) (time / 1000);
-			uri = uri + "?datum=" + t;
-		}
+		Calendar cal = searchConfig.getCalendar();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		long time = cal.getTimeInMillis();
+		int t = (int) (time / 1000);
+		uri = uri + "?datum=" + t;
 		return uri;
 	}
 
 	@Override
 	public List<IRoomModel> getRoomModels(SearchConfig searchConfig) {
 		try {
-			Calendar cal = searchConfig.getCalendar();
-			cal.set(Calendar.HOUR_OF_DAY, 0);
-			cal.set(Calendar.MINUTE, 0);
-			cal.set(Calendar.SECOND, 0);
-			cal.set(Calendar.MILLISECOND, 0);
-			String payload = getDataAsString(cal.getTimeInMillis());
+			String payload = getDataAsString(searchConfig);
 			JSONArray jsonArray = new JSONArray(payload);
 			int length = jsonArray.length();
 			if (length < 1) {
