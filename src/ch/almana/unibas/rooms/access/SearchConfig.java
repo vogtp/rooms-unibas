@@ -135,7 +135,9 @@ public class SearchConfig {
 		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(ctx, android.R.layout.simple_spinner_item);
 		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		buildingAdapter.add(new SearchConfig(ctx.getString(R.string.building_lzm), SearchConfig.BUILDING_LZM));
-		buildingAdapter.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
+		if (Settings.getInstance().isEnableBetafeatures()) {
+			buildingAdapter.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
+		}
 		return buildingAdapter;
 	}
 

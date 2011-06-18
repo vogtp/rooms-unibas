@@ -2,16 +2,34 @@ package ch.almana.unibas.rooms.helper;
 
 import java.text.SimpleDateFormat;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 public class Settings {
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE dd.MM.yyyy");
 	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
 	private static Settings instance;
 
-	public static Settings getInstance() {
+	private Context context;
+
+	public static void initInstance(Context ctx) {
 		if (instance == null) {
-			instance = new Settings();
+			instance = new Settings(ctx);
 		}
+	}
+
+	public Settings(Context ctx) {
+		super();
+		context = ctx;
+	}
+
+	protected SharedPreferences getPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
+	public static Settings getInstance() {
 		return instance;
 	}
 
@@ -24,7 +42,11 @@ public class Settings {
 	}
 
 	public boolean isOnlyUseHours() {
-		return true;
+		return getPreferences().getBoolean("prefKeyUseOnlyHours", true);
+	}
+
+	public boolean isEnableBetafeatures() {
+		return "RaumDispo".equals(getPreferences().getString("prefKeyBetaKey", ""));
 	}
 
 }

@@ -2,4 +2,10 @@
 <resources>
 <string name="building_kollegienhaus">Kollegienhaus</string>
 <string name="building_lzm">Lern Zentrum Medizin</string>
+<string name="prefUseOnlyHours">Use only hours</string>
+<string name="prefUseOnlyHoursOn">Minutes will be ignored when loading data</string>
+<string name="prefUseOnlyHoursOff">Minutes will be used when loading data.</string>
+<string name="menuSettings">Settings</string>
+<string name="prefBetaKey">Enable beta features</string>
+<string name="prefBetaKeyLong">Only for internal use</string>
 </resources>

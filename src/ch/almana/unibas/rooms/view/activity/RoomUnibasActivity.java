@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +20,7 @@ import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomLoaderTask;
 import ch.almana.unibas.rooms.access.RoomLoaderTask.RoomAccessCallback;
 import ch.almana.unibas.rooms.access.SearchConfig;
+import ch.almana.unibas.rooms.helper.GeneralMenuHelper;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
 import ch.almana.unibas.rooms.view.gestures.IGestureReceiver;
@@ -142,6 +145,22 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	@Override
 	public void searchConfigChanged(SearchConfig searchConfig) {
 		loadData();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		// getMenuInflater().inflate(R.menu.gerneral_help_menu, menu);
+		getMenuInflater().inflate(R.menu.gerneral_options_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (GeneralMenuHelper.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+		return false;
 	}
 
 }
