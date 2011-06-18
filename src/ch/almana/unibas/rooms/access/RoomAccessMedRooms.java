@@ -26,7 +26,7 @@ public class RoomAccessMedRooms extends RoomAccess {
 	protected String buildUrl(SearchConfig searchConfig) {
 		String uri = "http://rooms.medizin.unibas.ch/lib/json.php";
 
-		Calendar cal = searchConfig.getCalendar();
+		Calendar cal = (Calendar) searchConfig.getCalendar().clone();
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
