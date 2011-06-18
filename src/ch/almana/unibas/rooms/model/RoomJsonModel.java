@@ -72,4 +72,9 @@ public class RoomJsonModel implements IRoomModel {
 		}
 	}
 
+	@Override
+	public CharSequence getBuilding() {
+		return "LZM";
+	}
+
 }

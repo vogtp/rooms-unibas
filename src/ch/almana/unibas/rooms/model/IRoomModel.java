@@ -6,6 +6,8 @@ public interface IRoomModel {
 
 	public abstract CharSequence getRoom();
 
+	public abstract CharSequence getBuilding();
+
 	public abstract long getStarttime();
 
 	public abstract CharSequence getStarttimeString();
