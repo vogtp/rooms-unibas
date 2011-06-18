@@ -9,6 +9,8 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -46,32 +48,7 @@ public class DateButton extends Button {
 		setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				OnDateSetListener callBack = new OnDateSetListener() {
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						searchConfig.set(Calendar.YEAR, year);
-						searchConfig.set(Calendar.MONTH, monthOfYear);
-						searchConfig.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-						if (searchConfig.isSetTime()) {
-							OnTimeSetListener timeCallBack = new OnTimeSetListener() {
-								@Override
-								public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-									searchConfig.set(Calendar.HOUR_OF_DAY, hourOfDay);
-									searchConfig.set(Calendar.MINUTE, minute);
-									fireDateChanged();
-								}
-							};
-							TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeCallBack, searchConfig.get(Calendar.HOUR_OF_DAY),
-									searchConfig.get(Calendar.MINUTE), true);
-							timePickerDialog.show();
-						} else {
-							fireDateChanged();
-						}
-					}
-				};
-				DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callBack, searchConfig.get(Calendar.YEAR), searchConfig.get(Calendar.MONTH),
-						searchConfig.get(Calendar.DAY_OF_MONTH));
-				datePickerDialog.show();
+				showDatePickerDialog();
 			}
 		});
 		setOnLongClickListener(new OnLongClickListener() {
@@ -120,6 +97,44 @@ public class DateButton extends Button {
 	public void movePref() {
 		searchConfig.movePref();
 		updateText();
+	}
+
+	private void showDatePickerDialog() {
+		OnDateSetListener callBack = new OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				searchConfig.set(Calendar.YEAR, year);
+				searchConfig.set(Calendar.MONTH, monthOfYear);
+				searchConfig.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				if (searchConfig.isSetTime()) {
+					showTimePickerDialog();
+				} else {
+					fireDateChanged();
+				}
+			}
+		};
+		DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), callBack, searchConfig.get(Calendar.YEAR), searchConfig.get(Calendar.MONTH),
+				searchConfig.get(Calendar.DAY_OF_MONTH));
+		datePickerDialog.show();
+	}
+
+	private void showTimePickerDialog() {
+		OnTimeSetListener timeCallBack = new OnTimeSetListener() {
+			@Override
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				searchConfig.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				searchConfig.set(Calendar.MINUTE, minute);
+				fireDateChanged();
+			}
+		};
+		TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), timeCallBack, searchConfig.get(Calendar.HOUR_OF_DAY), searchConfig.get(Calendar.MINUTE), true);
+		timePickerDialog.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				fireDateChanged();
+			}
+		});
+		timePickerDialog.show();
 	}
 
 }
