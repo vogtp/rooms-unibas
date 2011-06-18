@@ -33,7 +33,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	public static final String TAG_TITLE = "title";
 	public static final String TAG_BUILDING = "building";
 
-	private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public RoomAccessRaumDispo(RoomLoaderTask roomLoaderTask) {
 		super(roomLoaderTask);
