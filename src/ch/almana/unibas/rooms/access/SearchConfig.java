@@ -45,7 +45,7 @@ public class SearchConfig {
 	}
 
 	public long getTimeInMillis() {
-		return cal.getTimeInMillis();
+		return getCalendar().getTimeInMillis();
 	}
 
 	public void set(int field, int value) {
@@ -53,7 +53,7 @@ public class SearchConfig {
 	}
 
 	public int get(int field) {
-		return cal.get(field);
+		return getCalendar().get(field);
 	}
 
 	public CharSequence getDateTimeFormated() {
@@ -105,6 +105,11 @@ public class SearchConfig {
 	}
 
 	public Calendar getCalendar() {
+		if (Settings.getInstance().isOnlyUseHours()) {
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+		}
 		return cal;
 	}
 

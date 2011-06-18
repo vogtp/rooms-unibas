@@ -46,7 +46,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 
 	@Override
 	protected String buildUrl(SearchConfig searchConfig) {
-		String date = requestDateFormat.format(searchConfig.getTimeInMillis());
+		String date = requestDateFormat.format(searchConfig.getCalendar().getTime());
 		StringBuilder url = new StringBuilder(URL_RAUMDISPO);
 		url.append("?pid=").append(searchConfig.getBuilding());
 		url.append("&ct=").append(Uri.encode(date));

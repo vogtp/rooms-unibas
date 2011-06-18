@@ -23,4 +23,8 @@ public class Settings {
 		return TIME_FORMAT;
 	}
 
+	public boolean isOnlyUseHours() {
+		return true;
+	}
+
 }
