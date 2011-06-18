@@ -10,7 +10,6 @@ import ch.almana.unibas.rooms.helper.Settings;
 
 public class RoomJsonModel implements IRoomModel {
 
-	private static final CharSequence NO_VALUE = "n.a.";
 	private JSONObject room;
 
 	public RoomJsonModel() {
