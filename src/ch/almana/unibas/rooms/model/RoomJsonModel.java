@@ -22,9 +22,6 @@ public class RoomJsonModel implements IRoomModel {
 		this.room = jsonObject;
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.almana.unibas.rooms.model.IRoomModel#getRoom()
-	 */
 	@Override
 	public CharSequence getRoom() {
 		try {
@@ -35,23 +32,26 @@ public class RoomJsonModel implements IRoomModel {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.almana.unibas.rooms.model.IRoomModel#getStarttime()
-	 */
 	@Override
-	public CharSequence getStarttime() {
+	public long getStarttime() {
 		try {
-			Date date = new Date(room.getLong("starttime") * 1000);
-			return Settings.getInstance().getTimeFormat().format(date);
+			return room.getLong("starttime") * 1000;
 		} catch (JSONException e) {
-			Logger.e("Cannot access starttime", e);
-			return NO_VALUE;
+			Logger.e("Cannot access starttime ", e);
+			return -1;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.almana.unibas.rooms.model.IRoomModel#getLecturer()
-	 */
+	@Override
+	public CharSequence getStarttimeString() {
+		long starttime = getStarttime();
+		if (starttime < 0) {
+			return NO_VALUE;
+		}
+		Date date = new Date(starttime);
+		return Settings.getInstance().getTimeFormat().format(date);
+	}
+
 	@Override
 	public CharSequence getLecturer() {
 		try {
@@ -62,9 +62,6 @@ public class RoomJsonModel implements IRoomModel {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ch.almana.unibas.rooms.model.IRoomModel#getTitle()
-	 */
 	@Override
 	public CharSequence getTitle() {
 		try {

@@ -57,7 +57,7 @@ public class RoomAdapter extends BaseAdapter {
 		View view = (convertView != null) ? convertView : createView(parent);
 		IRoomModel room = entries.get(position);
 		Settings settings = Settings.getInstance();
-		((TextView) view.findViewById(R.id.tvTime)).setText(room.getStarttime());
+		((TextView) view.findViewById(R.id.tvTime)).setText(room.getStarttimeString());
 		// ((TextView)
 		// view.findViewById(R.id.tvDate)).setText(settings.getDateFormat().format(date));
 		((TextView) view.findViewById(R.id.tvRoom)).setText(room.getRoom());
