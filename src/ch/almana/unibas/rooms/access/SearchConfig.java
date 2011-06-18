@@ -51,15 +51,40 @@ public class SearchConfig {
 	}
 
 	public CharSequence getDateTimeFormated() {
-		return Settings.getInstance().getDateFormat().format(getTimeInMillis());
+		switch (getRoomAccessType()) {
+		case MedRooms:
+			return Settings.getInstance().getDateFormat().format(getTimeInMillis());
+		case RaumDispo:
+			StringBuilder sb = new StringBuilder(Settings.getInstance().getDateFormat().format(getTimeInMillis()));
+			sb.append("\n");
+			sb.append(Settings.getInstance().getTimeFormat().format(getTimeInMillis()));
+			return sb.toString();
+		default:
+			return Settings.getInstance().getDateFormat().format(getTimeInMillis());
+		}
+
+	}
+
+	private void move(int direction) {
+		switch (getRoomAccessType()) {
+		case MedRooms:
+			cal.add(Calendar.DAY_OF_YEAR, direction);
+			break;
+		case RaumDispo:
+			cal.add(Calendar.HOUR, direction);
+			break;
+		default:
+			cal.add(Calendar.DAY_OF_YEAR, direction);
+			break;
+		}
 	}
 
 	public void moveNext() {
-		cal.add(Calendar.DAY_OF_YEAR, 1);
+		move(1);
 	}
 
 	public void movePref() {
-		cal.add(Calendar.DAY_OF_YEAR, -1);
+		move(-1);
 	}
 
 	public Calendar getCalendar() {
