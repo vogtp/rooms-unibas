@@ -52,16 +52,12 @@ public class RoomXmlAccess extends RoomAccess {
 	public List<IRoomModel> getRoomModels(long time) {
 		try {
 			Document document = getDocument(getDataAsStream(time));
-			Node eventsNode = document.getElementsByTagName(TAG_EVENTS).item(0);
-			if (eventsNode == null) {
-				return RoomAccess.NO_ROOMS;
-			}
-			NodeList eventNodesList = eventsNode.getChildNodes();
+			NodeList eventNodesList = document.getElementsByTagName(TAG_EVENT);
 			int length = eventNodesList.getLength();
 			if (length < 1) {
 				return RoomAccess.NO_ROOMS;
 			}
-			List<IRoomModel> list = new ArrayList<IRoomModel>(length / 2);
+			List<IRoomModel> list = new ArrayList<IRoomModel>(length);
 			for (int i = 0; i < length; i++) {
 				loaderTask.updateProgress();
 				Node node = eventNodesList.item(i);
