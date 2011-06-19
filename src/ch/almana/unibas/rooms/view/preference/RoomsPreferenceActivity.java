@@ -1,4 +1,4 @@
-package ch.almana.unibas.rooms.preference;
+package ch.almana.unibas.rooms.view.preference;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

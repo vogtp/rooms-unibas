@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
 import ch.almana.unibas.rooms.R;
-import ch.almana.unibas.rooms.preference.RoomsPreferenceActivity;
+import ch.almana.unibas.rooms.view.preference.RoomsPreferenceActivity;
 
 public class GeneralMenuHelper {
 
