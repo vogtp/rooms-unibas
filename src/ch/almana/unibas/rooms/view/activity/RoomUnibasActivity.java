@@ -1,5 +1,6 @@
 package ch.almana.unibas.rooms.view.activity;
 
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -13,14 +14,17 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.access.RoomAccess;
 import ch.almana.unibas.rooms.access.RoomLoaderTask;
 import ch.almana.unibas.rooms.access.RoomLoaderTask.RoomAccessCallback;
 import ch.almana.unibas.rooms.access.SearchConfig;
 import ch.almana.unibas.rooms.helper.GeneralMenuHelper;
+import ch.almana.unibas.rooms.helper.Settings;
 import ch.almana.unibas.rooms.model.IRoomModel;
 import ch.almana.unibas.rooms.view.adapter.RoomAdapter;
 import ch.almana.unibas.rooms.view.gestures.IGestureReceiver;
@@ -45,7 +49,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		setContentView(R.layout.room_list);
 
 		spBuilding = (Spinner) findViewById(R.id.spBuilding);
-		spBuilding.setAdapter(SearchConfig.getBuildingAdapter(this));
+		spBuilding.setAdapter(getBuildingAdapter());
 		spBuilding.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -163,4 +167,17 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		return false;
 	}
 
+	private SpinnerAdapter getBuildingAdapter() {
+		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(this, android.R.layout.simple_spinner_item);
+		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		List<SearchConfig> buildings = SearchConfig.getBuildings(this);
+		Settings settings = Settings.getInstance();
+		for (Iterator<SearchConfig> iterator = buildings.iterator(); iterator.hasNext();) {
+			SearchConfig building = iterator.next();
+			if (settings.isShowBuilding(building.getBuilding())) {
+				buildingAdapter.add(building);
+			}
+		}
+		return buildingAdapter;
+	}
 }

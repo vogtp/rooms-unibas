@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class Settings {
+	public static final String PREF_KEY_STEM_IS_SHOW_BUILDING = "showBuilding_";
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE dd.MM.yyyy");
 	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
@@ -47,6 +48,10 @@ public class Settings {
 
 	public boolean isEnableBetafeatures() {
 		return "RaumDispo".equals(getPreferences().getString("prefKeyBetaKey", ""));
+	}
+
+	public boolean isShowBuilding(int building) {
+		return getPreferences().getBoolean(PREF_KEY_STEM_IS_SHOW_BUILDING + building, true);
 	}
 
 }

@@ -1,16 +1,17 @@
 package ch.almana.unibas.rooms.access;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
-import android.widget.SpinnerAdapter;
 import ch.almana.unibas.rooms.R;
 import ch.almana.unibas.rooms.helper.Settings;
 
 public class SearchConfig {
 
 	public final static int BUILDING_KOLLEGIENHAUS = 1;
+	public final static int BUILDING_BIOPHARMAZENTRUM = 12;
 	public final static int BUILDING_BIOZ = 12;
 	public final static int BUILDING_LZM = -10;
 
@@ -131,14 +132,15 @@ public class SearchConfig {
 	}
 
 
-	public static SpinnerAdapter getBuildingAdapter(Context ctx) {
-		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(ctx, android.R.layout.simple_spinner_item);
-		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		buildingAdapter.add(new SearchConfig(ctx.getString(R.string.building_lzm), SearchConfig.BUILDING_LZM));
+	public static List<SearchConfig> getBuildings(Context ctx) {
+		List<SearchConfig> buildingsList = new ArrayList<SearchConfig>();
+		buildingsList.add(new SearchConfig(ctx.getString(R.string.building_lzm), SearchConfig.BUILDING_LZM));
 		if (Settings.getInstance().isEnableBetafeatures()) {
-			buildingAdapter.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
+			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
+			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_biopharmazentrum), SearchConfig.BUILDING_BIOPHARMAZENTRUM));
 		}
-		return buildingAdapter;
+		return buildingsList;
 	}
+
 
 }

@@ -3,8 +3,13 @@ V
 - 
 * bugfixes
 -
-* internal
-- 
+
+V 0.4.0
+* features
+- more buildings (only LZM available ATM)
+- settings
+* bugfixes
+-
 
 V 0.3.0
 * features
@@ -13,5 +18,3 @@ V 0.3.0
 - navigate with buttons
 * bugfixes
 -
-* internal
-- 

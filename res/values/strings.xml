@@ -8,4 +8,5 @@
 <string name="menuSettings">Settings</string>
 <string name="prefBetaKey">Enable beta features</string>
 <string name="prefBetaKeyLong">Only for internal use</string>
+<string name="building_biopharmazentrum">Bio-/Pharmazentrum</string>
 </resources>
