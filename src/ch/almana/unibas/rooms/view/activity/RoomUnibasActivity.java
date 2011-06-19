@@ -63,23 +63,23 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-		
+
 		dateButton = (DateButton) findViewById(R.id.dateButton1);
 		dateButton.setOnDateChangedListener(this);
 
-		((Button)findViewById(R.id.buLeft)).setOnClickListener(new OnClickListener() {
+		((Button) findViewById(R.id.buLeft)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				moveLeft();
 			}
 		});
-		((Button)findViewById(R.id.buRight)).setOnClickListener(new OnClickListener() {
+		((Button) findViewById(R.id.buRight)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				moveRight();
 			}
 		});
-		
+
 		leftRightGestureListener = new LeftRightGestureListener(this);
 		OnTouchListener gestureListener = new View.OnTouchListener() {
 			@Override
@@ -95,6 +95,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 
 	@Override
 	protected void onResume() {
+		spBuilding.setAdapter(getBuildingAdapter());
 		dateButton.setSearchConfig((SearchConfig) spBuilding.getSelectedItem());
 		loadData();
 		super.onResume();
@@ -174,7 +175,7 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		Settings settings = Settings.getInstance();
 		for (Iterator<SearchConfig> iterator = buildings.iterator(); iterator.hasNext();) {
 			SearchConfig building = iterator.next();
-			if (settings.isShowBuilding(building.getBuilding())) {
+			if (settings.isShowBuilding(building.getBuildingId())) {
 				buildingAdapter.add(building);
 			}
 		}

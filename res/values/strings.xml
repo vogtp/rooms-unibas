@@ -9,4 +9,6 @@
 <string name="prefBetaKey">Enable beta features</string>
 <string name="prefBetaKeyLong">Only for internal use</string>
 <string name="building_biopharmazentrum">Bio-/Pharmazentrum</string>
+<string name="prefManageBuildings">Manage buildings</string>
+<string name="prefManageBuildingsLong">Configure which building to show.</string>
 </resources>

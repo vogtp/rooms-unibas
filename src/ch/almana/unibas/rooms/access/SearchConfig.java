@@ -2,6 +2,8 @@ package ch.almana.unibas.rooms.access;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -19,7 +21,7 @@ public class SearchConfig {
 		RaumDispo, MedRooms
 	}
 
-	private int building;
+	private int buildingId;
 	private Calendar cal;
 	private String buildingName;
 
@@ -30,12 +32,12 @@ public class SearchConfig {
 	public SearchConfig(String buildingName, int building) {
 		super();
 		this.buildingName = buildingName;
-		this.building = building;
+		this.buildingId = building;
 		cal = Calendar.getInstance();
 	}
 	
 	public RoomAccessType getRoomAccessType() {
-		if (building == BUILDING_LZM) {
+		if (buildingId == BUILDING_LZM) {
 			return RoomAccessType.MedRooms;
 		}
 		return RoomAccessType.RaumDispo;
@@ -114,12 +116,12 @@ public class SearchConfig {
 		return cal;
 	}
 
-	public void setBuilding(int building) {
-		this.building = building;
+	public void setBuildingId(int buildingID) {
+		this.buildingId = buildingID;
 	}
 
-	public int getBuilding() {
-		return building;
+	public int getBuildingId() {
+		return buildingId;
 	}
 
 	public String getBuildingName() {
@@ -139,6 +141,15 @@ public class SearchConfig {
 			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
 			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_biopharmazentrum), SearchConfig.BUILDING_BIOPHARMAZENTRUM));
 		}
+		Comparator<SearchConfig> comparator = new Comparator<SearchConfig>() {
+
+			@Override
+			public int compare(SearchConfig s1, SearchConfig s2) {
+				return s1.getBuildingName().compareTo(s2.getBuildingName());
+			}
+
+		};
+		Collections.sort(buildingsList, comparator );
 		return buildingsList;
 	}
 

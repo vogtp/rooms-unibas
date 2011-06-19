@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference android:title="@string/prefUseOnlyHours" android:summaryOff="@string/prefUseOnlyHoursOff" android:key="prefKeyUseOnlyHours" android:summaryOn="@string/prefUseOnlyHoursOn" android:defaultValue="true"></CheckBoxPreference>
-    <EditTextPreference android:title="@string/prefBetaKey" android:key="prefKeyBetaKey" android:summary="@string/prefBetaKeyLong"></EditTextPreference>
+    <CheckBoxPreference android:title="@string/prefUseOnlyHours"
+	android:summaryOff="@string/prefUseOnlyHoursOff" android:key="prefKeyUseOnlyHours"
+	android:summaryOn="@string/prefUseOnlyHoursOn" android:defaultValue="true"></CheckBoxPreference>
+    <PreferenceScreen android:key="prefKeyManageBuildings" android:title="@string/prefManageBuildings" android:summary="@string/prefManageBuildingsLong">
+        <PreferenceCategory android:key="prefKeyManageBuildingsCat"></PreferenceCategory>
+    </PreferenceScreen><EditTextPreference android:title="@string/prefBetaKey" android:key="prefKeyBetaKey" android:summary="@string/prefBetaKeyLong"></EditTextPreference>
+    
     
 </PreferenceScreen>
