@@ -11,4 +11,6 @@
 <string name="building_biopharmazentrum">Bio-/Pharmazentrum</string>
 <string name="prefManageBuildings">Manage buildings</string>
 <string name="prefManageBuildingsLong">Configure which building to show.</string>
+<string name="prefDefaultBuilding">Default building</string>
+<string name="prefDefaultBuildingLong">Default building to be shown</string>
 </resources>

@@ -4,9 +4,10 @@
     <CheckBoxPreference android:title="@string/prefUseOnlyHours"
 	android:summaryOff="@string/prefUseOnlyHoursOff" android:key="prefKeyUseOnlyHours"
 	android:summaryOn="@string/prefUseOnlyHoursOn" android:defaultValue="true"></CheckBoxPreference>
-    <PreferenceScreen android:key="prefKeyManageBuildings" android:title="@string/prefManageBuildings" android:summary="@string/prefManageBuildingsLong">
+    <ListPreference android:key="prefKeyDefaultBuilding" android:summary="@string/prefDefaultBuildingLong" android:title="@string/prefDefaultBuilding"></ListPreference><PreferenceScreen android:key="prefKeyManageBuildings" android:title="@string/prefManageBuildings" android:summary="@string/prefManageBuildingsLong">
         <PreferenceCategory android:key="prefKeyManageBuildingsCat"></PreferenceCategory>
     </PreferenceScreen><EditTextPreference android:title="@string/prefBetaKey" android:key="prefKeyBetaKey" android:summary="@string/prefBetaKeyLong"></EditTextPreference>
+    
     
     
 </PreferenceScreen>

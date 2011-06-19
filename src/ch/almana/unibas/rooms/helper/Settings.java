@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class Settings {
+	public static final String PREF_KEY_DEFAULT_BUILDING = "prefKeyDefaultBuilding";
 	public static final String PREF_KEY_STEM_IS_SHOW_BUILDING = "showBuilding_";
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE dd.MM.yyyy");
 	private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
@@ -52,6 +53,15 @@ public class Settings {
 
 	public boolean isShowBuilding(int building) {
 		return getPreferences().getBoolean(PREF_KEY_STEM_IS_SHOW_BUILDING + building, true);
+	}
+
+	public int getDefaultBuilding() {
+		try {
+			return Integer.parseInt(getPreferences().getString(PREF_KEY_DEFAULT_BUILDING, "-1"));
+		} catch (NumberFormatException e) {
+			Logger.w("Cannot parse " + PREF_KEY_DEFAULT_BUILDING + " as int", e);
+			return -1;
+		}
 	}
 
 }

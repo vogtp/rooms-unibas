@@ -96,6 +96,16 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 	@Override
 	protected void onResume() {
 		spBuilding.setAdapter(getBuildingAdapter());
+		int buildingId = Settings.getInstance().getDefaultBuilding();
+		if (buildingId != -1) {
+			SpinnerAdapter adapter = spBuilding.getAdapter();
+			for (int i = 0; i < adapter.getCount(); i++) {
+				SearchConfig item = (SearchConfig) adapter.getItem(i);
+				if (buildingId == item.getBuildingId()) {
+					spBuilding.setSelection(i);
+				}
+			}
+		}
 		dateButton.setSearchConfig((SearchConfig) spBuilding.getSelectedItem());
 		loadData();
 		super.onResume();
