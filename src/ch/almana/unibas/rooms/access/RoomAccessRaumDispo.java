@@ -1,6 +1,9 @@
 package ch.almana.unibas.rooms.access;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import android.net.Uri;
 import ch.almana.unibas.rooms.helper.Logger;
@@ -24,7 +28,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	// Penner</lecturer><building>Kollegienhaus</building><room>Hörsaal
 	// 114</room><code>11475-01</code></event>
 
-	private static final String URL_RAUMDISPO = "http://beta2.nextron.ch/unibas_raumdispo/api/";
+	private static final String URL_RAUMDISPO = "http://mobile-gateway.unibas.ch/rauminfo/api/";
 	private static final String TAG_EVENTS = "events";
 	private static final String TAG_EVENT = "event";
 	public static final String TAG_ROOM = "room";
@@ -41,7 +45,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 
 	@Override
 	protected String getEncoding() {
-		return "UTF-8";
+		return "ISO-8859-1";
 	}
 
 	@Override
@@ -80,8 +84,24 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	}
 
 	private Document getDocument(InputStream documentAsStream) throws Exception {
-		DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		return documentBuilder.parse(documentAsStream);
+		 BufferedReader bis = new BufferedReader (new InputStreamReader( (documentAsStream)));
+		 bis.readLine();
+		 String line = "";
+		 StringBuffer sb = new StringBuffer();
+		 while (line != null) {
+			if (!"".equals(line.trim())) {
+				 sb.append(line);
+			 }
+			 line = bis.readLine();
+		 }
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setIgnoringComments(true);
+		factory.setValidating(false);
+		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+//		return documentBuilder.parse(documentAsStream);
+		 InputSource is = new InputSource();
+	        is.setCharacterStream(new StringReader(sb.toString()));
+		return documentBuilder.parse(is);
 	}
 
 }
