@@ -132,14 +132,16 @@ public class SearchConfig {
 		return buildingName;
 	}
 
-
 	public static List<SearchConfig> getBuildings(Context ctx) {
 		List<SearchConfig> buildingsList = new ArrayList<SearchConfig>();
 		buildingsList.add(new SearchConfig(ctx.getString(R.string.building_lzm), SearchConfig.BUILDING_LZM));
-		if (Settings.getInstance().isEnableBetafeatures()) {
-			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
-			buildingsList.add(new SearchConfig(ctx.getString(R.string.building_biopharmazentrum), SearchConfig.BUILDING_BIOPHARMAZENTRUM));
-		}
+		buildingsList.add(new SearchConfig(ctx.getString(R.string.building_kollegienhaus), SearchConfig.BUILDING_KOLLEGIENHAUS));
+		buildingsList.add(new SearchConfig(ctx.getString(R.string.building_biopharmazentrum), SearchConfig.BUILDING_BIOPHARMAZENTRUM));
+		// buildingsList.add(new SearchConfig("", ));
+		// buildingsList.add(new SearchConfig("", ));
+		// buildingsList.add(new SearchConfig("", ));
+		// buildingsList.add(new SearchConfig("", ));
+		
 		Comparator<SearchConfig> comparator = new Comparator<SearchConfig>() {
 
 			@Override
@@ -148,9 +150,8 @@ public class SearchConfig {
 			}
 
 		};
-		Collections.sort(buildingsList, comparator );
+		Collections.sort(buildingsList, comparator);
 		return buildingsList;
 	}
-
 
 }
