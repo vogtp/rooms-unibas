@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -90,6 +92,16 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		getListView().setOnTouchListener(gestureListener);
 		roomAdapter = new RoomAdapter(this);
 		getListView().setAdapter(roomAdapter);
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				IRoomModel room = roomAdapter.getItem(position);
+				Intent i = new Intent(RoomUnibasActivity.this, RoomDetailActivity.class);
+				i.putExtra(IRoomModel.EXTRA_KEY, room.getBundle());
+				startActivity(i);
+			}
+		});
 
 	}
 

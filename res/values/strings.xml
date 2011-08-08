@@ -13,4 +13,9 @@
 <string name="prefManageBuildingsLong">Configure which building to show.</string>
 <string name="prefDefaultBuilding">Default building</string>
 <string name="prefDefaultBuildingLong">Default building to be shown</string>
+<string name="lableTime">Time</string>
+<string name="lableTitle">Title</string>
+<string name="lableLecturer">Lecturer</string>
+<string name="labelRoomDetail">Room</string>
+<string name="labelBuilding">Building</string>
 </resources>

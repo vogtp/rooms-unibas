@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+	<LinearLayout android:layout_weight="1"
+		android:layout_width="fill_parent" android:orientation="vertical"
+		android:id="@+id/LinearLayoutTime" android:layout_height="wrap_content">
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" android:id="@+id/labelTime"
+			android:text="@string/lableTime"></TextView>
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
+			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
+			android:layout_height="wrap_content" android:id="@+id/tvTime"></TextView>
+	</LinearLayout>
+	<LinearLayout android:layout_weight="1"
+		android:layout_width="fill_parent" android:orientation="vertical"
+		android:layout_height="wrap_content" android:id="@+id/LinearLayoutTitle">
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" android:id="@+id/labelTitle"
+			android:text="@string/lableTitle"></TextView>
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
+			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
+			android:layout_height="fill_parent" android:id="@+id/tvTitle"></TextView>
+	</LinearLayout>
+	<LinearLayout android:layout_weight="1"
+		android:layout_width="fill_parent" android:orientation="vertical"
+		android:layout_height="wrap_content" android:id="@+id/LinearLayoutLecturer">
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginTop="5dp" android:id="@+id/lableLecturer"
+			android:text="@string/lableLecturer"></TextView>
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
+			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
+			android:layout_height="fill_parent" android:id="@+id/tvLecturer"></TextView>
+	</LinearLayout>
+	<LinearLayout android:layout_weight="1"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:orientation="vertical" android:id="@+id/LinearLayoutBuilding">
+		<TextView android:layout_marginLeft="5dp"
+			android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:id="@+id/lableBuilding" android:text="@string/labelBuilding"></TextView>
+		<TextView android:layout_marginLeft="5dp" android:layout_width="fill_parent" android:layout_marginBottom="10dp" android:text="TextView" android:textSize="17sp" android:textStyle="bold" android:layout_height="fill_parent" android:id="@+id/tvBuilding"></TextView>
+	</LinearLayout>
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_weight="1"
+		android:layout_height="wrap_content" android:id="@+id/linearLayoutRoom">
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:layout_marginLeft="5dp"
+			android:layout_marginTop="5dp" android:id="@+id/labelRoom" android:text="@string/labelRoomDetail"></TextView>
+		<TextView android:text="TextView" android:textStyle="bold"
+			android:layout_marginLeft="5dp" android:layout_marginBottom="10dp"
+			android:layout_height="fill_parent" android:layout_width="fill_parent"
+			android:textSize="17sp" android:id="@+id/tvRoom"></TextView>
+	</LinearLayout>
+</LinearLayout>

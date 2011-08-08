@@ -8,9 +8,9 @@ import org.json.JSONObject;
 import ch.almana.unibas.rooms.helper.Logger;
 import ch.almana.unibas.rooms.helper.Settings;
 
-public class RoomJsonModel implements IRoomModel {
+public class RoomJsonModel extends IRoomModel {
 
-	private JSONObject room;
+	private final JSONObject room;
 
 	public RoomJsonModel() {
 		super();
@@ -32,7 +32,6 @@ public class RoomJsonModel implements IRoomModel {
 		}
 	}
 
-	@Override
 	public long getStarttime() {
 		try {
 			return room.getLong("starttime") * 1000;

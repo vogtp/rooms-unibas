@@ -15,7 +15,7 @@ import ch.almana.unibas.rooms.model.IRoomModel;
 
 public class RoomAdapter extends BaseAdapter {
 
-	private LayoutInflater layoutInflator;
+	private final LayoutInflater layoutInflator;
 	private List<IRoomModel> entries;
 
 	public RoomAdapter(Context ctx) {
@@ -30,7 +30,7 @@ public class RoomAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public IRoomModel getItem(int position) {
 		return entries.get(position);
 	}
 
@@ -49,10 +49,10 @@ public class RoomAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (entries == RoomAccess.LOADING_ROOMS) {
-			return (View) layoutInflator.inflate(R.layout.room_item_loading, parent, false);
+			return layoutInflator.inflate(R.layout.room_item_loading, parent, false);
 		}
 		if (entries == RoomAccess.NO_ROOMS) {
-			return (View) layoutInflator.inflate(R.layout.room_item_noevents, parent, false);
+			return layoutInflator.inflate(R.layout.room_item_noevents, parent, false);
 		}
 		View view = (convertView != null) ? convertView : createView(parent);
 		IRoomModel room = entries.get(position);
@@ -67,7 +67,7 @@ public class RoomAdapter extends BaseAdapter {
 	}
 
 	private View createView(ViewGroup parent) {
-		View item = (View) layoutInflator.inflate(R.layout.room_item, parent, false);
+		View item = layoutInflator.inflate(R.layout.room_item, parent, false);
 		return item;
 	}
 

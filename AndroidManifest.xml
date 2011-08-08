@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.preference.RoomsPreferenceActivity"></activity>
-        <activity android:name=".view.preference.BuildingsPreferenceActivity"></activity>
+        <activity android:name=".view.activity.RoomDetailActivity"></activity>
 
     </application>
 </manifest>

@@ -6,13 +6,13 @@ import org.w3c.dom.NodeList;
 import ch.almana.unibas.rooms.access.RoomAccessRaumDispo;
 import ch.almana.unibas.rooms.helper.Logger;
 
-public class RoomXmlModel implements IRoomModel {
+public class RoomXmlModel extends IRoomModel {
 
 	private CharSequence room;
 	private CharSequence starttimeString;
 	private CharSequence lecturer;
 	private CharSequence title;
-	private long starttime;
+	// private long starttime;
 	private CharSequence building;
 
 	public RoomXmlModel(Node node) {
@@ -51,20 +51,15 @@ public class RoomXmlModel implements IRoomModel {
 		}
 	}
 
-	private CharSequence getXmlValue(Node node, String tagRoom) {
-
-		return null;
-	}
-
 	@Override
 	public CharSequence getRoom() {
 		return room;
 	}
 
-	@Override
-	public long getStarttime() {
-		return starttime;
-	}
+	// @Override
+	// public long getStarttime() {
+	// return starttime;
+	// }
 
 	@Override
 	public CharSequence getStarttimeString() {
@@ -85,5 +80,6 @@ public class RoomXmlModel implements IRoomModel {
 	public CharSequence getBuilding() {
 		return building;
 	}
+
 
 }
