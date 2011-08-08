@@ -57,7 +57,6 @@ public class RoomAccessRaumDispo extends RoomAccess {
 		return url.toString();
 	}
 
-
 	@Override
 	public List<IRoomModel> getRoomModels(SearchConfig searchConfig) {
 		try {
@@ -85,22 +84,21 @@ public class RoomAccessRaumDispo extends RoomAccess {
 
 	private Document getDocument(InputStream documentAsStream) throws Exception {
 		BufferedReader bis = new BufferedReader(new InputStreamReader(documentAsStream, getEncoding()));
-		 bis.readLine();
-		 String line = "";
-		 StringBuffer sb = new StringBuffer();
-		 while (line != null) {
+		bis.readLine();
+		String line = "";
+		StringBuffer sb = new StringBuffer();
+		while (line != null) {
 			if (!"".equals(line.trim())) {
-				 sb.append(line);
-			 }
-			 line = bis.readLine();
-		 }
+				sb.append(line);
+			}
+			line = bis.readLine();
+		}
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setIgnoringComments(true);
 		factory.setValidating(false);
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-//		return documentBuilder.parse(documentAsStream);
-		 InputSource is = new InputSource();
-	        is.setCharacterStream(new StringReader(sb.toString()));
+		InputSource is = new InputSource();
+		is.setCharacterStream(new StringReader(sb.toString()));
 		return documentBuilder.parse(is);
 	}
 
