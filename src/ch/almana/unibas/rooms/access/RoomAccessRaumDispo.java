@@ -45,7 +45,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 
 	@Override
 	protected String getEncoding() {
-		return "ISO-8859-1";
+		return "ISO-8859-15";
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class RoomAccessRaumDispo extends RoomAccess {
 	}
 
 	private Document getDocument(InputStream documentAsStream) throws Exception {
-		 BufferedReader bis = new BufferedReader (new InputStreamReader( (documentAsStream)));
+		BufferedReader bis = new BufferedReader(new InputStreamReader(documentAsStream, getEncoding()));
 		 bis.readLine();
 		 String line = "";
 		 StringBuffer sb = new StringBuffer();
