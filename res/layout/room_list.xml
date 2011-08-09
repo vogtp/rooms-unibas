@@ -10,11 +10,11 @@
 		<Button android:id="@+id/buLeft" android:layout_width="wrap_content"
 			android:text="&lt;" android:layout_weight=".1" android:minWidth="50dp"
 			android:layout_height="fill_parent"></Button>
-		<ch.almana.unibas.rooms.view.widget.DateButton
+		<ch.unibas.urz.android.rooms.view.widget.DateButton
 			android:textStyle="bold" android:typeface="normal" android:id="@+id/dateButton1"
 			android:textSize="20dp" android:text="DateButton"
 			android:layout_width="fill_parent" android:layout_weight=".7"
-			android:layout_height="fill_parent"></ch.almana.unibas.rooms.view.widget.DateButton>
+			android:layout_height="fill_parent"></ch.unibas.urz.android.rooms.view.widget.DateButton>
 		<Button android:id="@+id/buRight" android:text="&gt;"
 			android:layout_width="wrap_content" android:layout_weight=".1"
 			android:minWidth="50dp" android:layout_height="fill_parent"></Button>

@@ -30,4 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>unibasThemeDevelopment_src</name>
+			<type>2</type>
+			<locationURI>_android_unibasThemeDevelopment_e76b54f6/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
