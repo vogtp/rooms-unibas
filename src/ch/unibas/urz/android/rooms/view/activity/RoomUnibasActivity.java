@@ -1,25 +1,33 @@
 package ch.unibas.urz.android.rooms.view.activity;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.ListActivity;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import ch.unibas.urz.android.rooms.R;
 import ch.unibas.urz.android.rooms.access.RoomAccess;
 import ch.unibas.urz.android.rooms.access.RoomLoaderTask;
@@ -31,18 +39,22 @@ import ch.unibas.urz.android.rooms.model.IRoomModel;
 import ch.unibas.urz.android.rooms.view.adapter.RoomAdapter;
 import ch.unibas.urz.android.rooms.view.gestures.IGestureReceiver;
 import ch.unibas.urz.android.rooms.view.gestures.LeftRightGestureListener;
-import ch.unibas.urz.android.rooms.view.widget.DateButton;
-import ch.unibas.urz.android.rooms.view.widget.DateButton.OnDateChangedListener;
 
-public class RoomUnibasActivity extends ListActivity implements OnDateChangedListener, IGestureReceiver, RoomAccessCallback {
+import com.markupartist.android.widget.ActionBar;
+import com.markupartist.android.widget.ActionBar.Action;
 
-	private DateButton dateButton;
+public class RoomUnibasActivity extends ListActivity implements IGestureReceiver, RoomAccessCallback {
+
+	// private DateButton dateButton2;
 	private LeftRightGestureListener leftRightGestureListener;
 	private RoomAdapter roomAdapter;
 	private int progress = 0;
 	private RoomLoaderTask roomLoaderTask;
 	private Spinner spBuilding;
 	private int buildingId;
+	private ActionBar actionBar;
+	private TextView tvDate;
+	private SearchConfig searchConfig;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -51,15 +63,22 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.room_list);
 
+		actionBar = (ActionBar) findViewById(R.id.actionBar1);
+		actionBar.setTitle(R.string.app_name);
+
 		buildingId = Settings.getInstance().getDefaultBuilding();
-		spBuilding = (Spinner) findViewById(R.id.spBuilding);
+		spBuilding = new Spinner(this);// (Spinner)
+										// findViewById(R.id.spBuilding);
 		spBuilding.setAdapter(getBuildingAdapter());
+
+		tvDate = (TextView) findViewById(R.id.tvDate);
+
 		spBuilding.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				SearchConfig sc = (SearchConfig) spBuilding.getAdapter().getItem(position);
-				sc.setTimeInMillis(dateButton.getSearchConfig().getTimeInMillis());
-				dateButton.setSearchConfig(sc);
+				sc.setTimeInMillis(searchConfig.getTimeInMillis());
+				searchConfig = sc;
 				loadData();
 			}
 
@@ -67,22 +86,24 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
-
-		dateButton = (DateButton) findViewById(R.id.dateButton1);
-		dateButton.setOnDateChangedListener(this);
-
-		((Button) findViewById(R.id.buLeft)).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveLeft();
-			}
-		});
-		((Button) findViewById(R.id.buRight)).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				moveRight();
-			}
-		});
+		//
+		// dateButton = (DateButton) findViewById(R.id.dateButton1);
+		// dateButton.setOnDateChangedListener(this);
+		//
+		// ((Button) findViewById(R.id.buLeft)).setOnClickListener(new
+		// OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// moveLeft();
+		// }
+		// });
+		// ((Button) findViewById(R.id.buRight)).setOnClickListener(new
+		// OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// moveRight();
+		// }
+		// });
 
 		leftRightGestureListener = new LeftRightGestureListener(this);
 		OnTouchListener gestureListener = new View.OnTouchListener() {
@@ -104,7 +125,53 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 				startActivity(i);
 			}
 		});
+		Action buildingAction = new ActionBar.Action() {
+			@Override
+			public void performAction(View view) {
+				spBuilding.performClick();
+			}
 
+			@Override
+			public int getDrawable() {
+				return android.R.drawable.ic_dialog_map;
+			}
+		};
+		Action leftAction = new ActionBar.Action() {
+			@Override
+			public int getDrawable() {
+				// TODO Auto-generated method stub
+				return android.R.drawable.ic_media_previous;
+			}
+			@Override
+			public void performAction(View view) {
+				moveLeft();
+			}
+		};
+		Action rightAction = new ActionBar.Action() {
+			@Override
+			public int getDrawable() {
+				return android.R.drawable.ic_media_next;
+			}
+			@Override
+			public void performAction(View view) {
+				moveRight();
+			}
+		};
+		Action newDateAction = new ActionBar.Action() {
+			@Override
+			public int getDrawable() {
+				return android.R.drawable.ic_dialog_info;
+			}
+			@Override
+			public void performAction(View view) {
+				showDatePickerDialog();
+			}
+		};
+
+		actionBar.addAction(buildingAction);
+		actionBar.addAction(leftAction);
+		actionBar.addAction(newDateAction);
+		actionBar.addAction(rightAction);
 	}
 
 	@Override
@@ -119,7 +186,8 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 				}
 			}
 		}
-		dateButton.setSearchConfig((SearchConfig) spBuilding.getSelectedItem());
+		searchConfig = (SearchConfig) spBuilding.getSelectedItem();
+		searchConfigChanged();
 		loadData();
 		super.onResume();
 	}
@@ -128,14 +196,14 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		if (progress > 0) {
 			roomLoaderTask.cancel(true);
 		}
+		showRoomInfo();
 		updateAdapter(RoomAccess.LOADING_ROOMS);
 		roomLoaderTask = new RoomLoaderTask(this);
-		setProgressBarVisibility(true);
-		progress = 1000;
-		updateProgress();
-		roomLoaderTask.execute(dateButton.getSearchConfig());
+		actionBar.setProgressBarVisibility(View.VISIBLE);
+		roomLoaderTask.execute(searchConfig);
 	}
 
+	// FIXME remove
 	@Override
 	public void updateProgress() {
 		progress += 1000;
@@ -151,6 +219,8 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		}
 		setProgressBarVisibility(false);
 		progress = 0;
+		actionBar.setProgressBarVisibility(View.GONE);
+		showRoomInfo();
 	}
 
 	private void updateAdapter(List<IRoomModel> result) {
@@ -160,19 +230,27 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 
 	@Override
 	public void moveRight() {
-		dateButton.moveNext();
+		searchConfig.moveNext();
 		loadData();
 	}
 
 	@Override
 	public void moveLeft() {
-		dateButton.movePref();
+		searchConfig.movePref();
 		loadData();
 	}
 
-	@Override
-	public void searchConfigChanged(SearchConfig searchConfig) {
+	// FIXME do we really need this?
+	public void searchConfigChanged() {
 		loadData();
+		showRoomInfo();
+	}
+
+	private void showRoomInfo() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(searchConfig.getBuildingName()).append(" ");
+		sb.append(searchConfig.getDateTimeFormated());
+		tvDate.setText(sb.toString());
 	}
 
 	@Override
@@ -204,4 +282,43 @@ public class RoomUnibasActivity extends ListActivity implements OnDateChangedLis
 		}
 		return buildingAdapter;
 	}
+
+	public void showDatePickerDialog() {
+		OnDateSetListener callBack = new OnDateSetListener() {
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+				searchConfig.set(Calendar.YEAR, year);
+				searchConfig.set(Calendar.MONTH, monthOfYear);
+				searchConfig.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				if (searchConfig.isSetTime()) {
+					showTimePickerDialog();
+				} else {
+					searchConfigChanged();
+				}
+			}
+		};
+		DatePickerDialog datePickerDialog = new DatePickerDialog(this, callBack, searchConfig.get(Calendar.YEAR), searchConfig.get(Calendar.MONTH),
+				searchConfig.get(Calendar.DAY_OF_MONTH));
+		datePickerDialog.show();
+	}
+
+	private void showTimePickerDialog() {
+		OnTimeSetListener timeCallBack = new OnTimeSetListener() {
+			@Override
+			public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+				searchConfig.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				searchConfig.set(Calendar.MINUTE, minute);
+				searchConfigChanged();
+			}
+		};
+		TimePickerDialog timePickerDialog = new TimePickerDialog(this, timeCallBack, searchConfig.get(Calendar.HOUR_OF_DAY), searchConfig.get(Calendar.MINUTE), true);
+		timePickerDialog.setOnCancelListener(new OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				searchConfigChanged();
+			}
+		});
+		timePickerDialog.show();
+	}
+
 }

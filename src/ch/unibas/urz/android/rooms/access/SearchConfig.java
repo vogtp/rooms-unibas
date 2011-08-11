@@ -64,7 +64,7 @@ public class SearchConfig {
 			return Settings.getInstance().getDateFormat().format(getTimeInMillis());
 		case RaumDispo:
 			StringBuilder sb = new StringBuilder(Settings.getInstance().getDateFormat().format(getTimeInMillis()));
-			sb.append("\n");
+			sb.append(" ");
 			sb.append(Settings.getInstance().getTimeFormat().format(getTimeInMillis()));
 			return sb.toString();
 		default:

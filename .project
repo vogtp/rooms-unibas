@@ -32,9 +32,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>unibasThemeDevelopment_src</name>
+			<name>com_markupartist_android_widget_actionbar_src</name>
 			<type>2</type>
-			<locationURI>_android_unibasThemeDevelopment_e76b54f6/src</locationURI>
+			<locationURI>_android_com_markupartist_android_widget_actionbar_3506d044/src</locationURI>
+		</link>
+		<link>
+			<name>unibasTheme_src</name>
+			<type>2</type>
+			<locationURI>_android_unibasTheme_6ca34b05/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

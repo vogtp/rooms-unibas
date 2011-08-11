@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<Spinner android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:id="@+id/spBuilding"></Spinner>
-	<LinearLayout android:id="@+id/linearLayout1"
-		android:layout_height="wrap_content" android:layout_width="fill_parent"
-		android:baselineAligned="true">
-		<Button android:id="@+id/buLeft" android:layout_width="wrap_content"
-			android:text="&lt;" android:layout_weight=".1" android:minWidth="50dp"
-			android:layout_height="fill_parent"></Button>
-		<ch.unibas.urz.android.rooms.view.widget.DateButton
-			android:textStyle="bold" android:typeface="normal" android:id="@+id/dateButton1"
-			android:textSize="20dp" android:text="DateButton"
-			android:layout_width="fill_parent" android:layout_weight=".7"
-			android:layout_height="fill_parent"></ch.unibas.urz.android.rooms.view.widget.DateButton>
-		<Button android:id="@+id/buRight" android:text="&gt;"
-			android:layout_width="wrap_content" android:layout_weight=".1"
-			android:minWidth="50dp" android:layout_height="fill_parent"></Button>
-	</LinearLayout>
-	<ListView android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:id="@android:id/list"></ListView>
+	style="@style/appWindow" android:layout_height="fill_parent">
+	<com.markupartist.android.widget.ActionBar
+		android:id="@+id/actionBar1" style="@style/ActionBarUnibas" />
+
+	<TextView android:text="info" android:textColor="@android:color/darker_gray"
+		android:layout_height="wrap_content" android:id="@+id/tvDate"
+		android:lines="1" android:layout_width="fill_parent"
+		android:background="@color/backgroundUni"></TextView>
+	<ListView android:layout_width="fill_parent" style="@style/appListview"
+		android:layout_weight=".9" android:layout_height="fill_parent"
+		android:id="@android:id/list"></ListView>
+	<include layout="@layout/footer_unbas_turquise" android:id="@+id/linearLayout1_ref"
+		android:layout_width="fill_parent" android:layout_height="90dp"
+		android:layout_gravity="bottom|left" android:layout_weight=".3" />
 </LinearLayout>
