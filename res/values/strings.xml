@@ -18,4 +18,5 @@
 <string name="lableLecturer">Lecturer</string>
 <string name="labelRoomDetail">Room</string>
 <string name="labelBuilding">Building</string>
+<string name="msg_choose_building">Choose building</string>
 </resources>

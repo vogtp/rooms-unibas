@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.ListActivity;
@@ -11,6 +12,7 @@ import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,11 +23,8 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import ch.unibas.urz.android.rooms.R;
@@ -45,13 +44,12 @@ import com.markupartist.android.widget.ActionBar.Action;
 
 public class RoomUnibasActivity extends ListActivity implements IGestureReceiver, RoomAccessCallback {
 
-	// private DateButton dateButton2;
 	private LeftRightGestureListener leftRightGestureListener;
 	private RoomAdapter roomAdapter;
 	private int progress = 0;
 	private RoomLoaderTask roomLoaderTask;
-	private Spinner spBuilding;
-	private int buildingId;
+	// private Spinner spBuilding;
+	// private int buildingId;
 	private ActionBar actionBar;
 	private TextView tvDate;
 	private SearchConfig searchConfig;
@@ -60,50 +58,21 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_PROGRESS);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.room_list);
 
 		actionBar = (ActionBar) findViewById(R.id.actionBar1);
 		actionBar.setTitle(R.string.app_name);
-
-		buildingId = Settings.getInstance().getDefaultBuilding();
-		spBuilding = new Spinner(this);// (Spinner)
-										// findViewById(R.id.spBuilding);
-		spBuilding.setAdapter(getBuildingAdapter());
+		int defaultBuilding = Settings.getInstance().getDefaultBuilding();
+		List<SearchConfig> buildings = SearchConfig.getBuildings(this);
+		searchConfig = buildings.get(0);
+		for (SearchConfig sc : buildings) {
+			if (sc.getBuildingId() == defaultBuilding) {
+				searchConfig = sc;
+			}
+		}
 
 		tvDate = (TextView) findViewById(R.id.tvDate);
-
-		spBuilding.setOnItemSelectedListener(new OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				SearchConfig sc = (SearchConfig) spBuilding.getAdapter().getItem(position);
-				sc.setTimeInMillis(searchConfig.getTimeInMillis());
-				searchConfig = sc;
-				loadData();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-			}
-		});
-		//
-		// dateButton = (DateButton) findViewById(R.id.dateButton1);
-		// dateButton.setOnDateChangedListener(this);
-		//
-		// ((Button) findViewById(R.id.buLeft)).setOnClickListener(new
-		// OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// moveLeft();
-		// }
-		// });
-		// ((Button) findViewById(R.id.buRight)).setOnClickListener(new
-		// OnClickListener() {
-		// @Override
-		// public void onClick(View v) {
-		// moveRight();
-		// }
-		// });
 
 		leftRightGestureListener = new LeftRightGestureListener(this);
 		OnTouchListener gestureListener = new View.OnTouchListener() {
@@ -128,19 +97,41 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 		Action buildingAction = new ActionBar.Action() {
 			@Override
 			public void performAction(View view) {
-				spBuilding.performClick();
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(RoomUnibasActivity.this);
+				builder.setTitle(R.string.msg_choose_building);
+
+				final ArrayAdapter<SearchConfig> adapter = getBuildingAdapter();
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				int selectedBuildingPos = 0;
+				int buildingId = searchConfig.getBuildingId();
+				for (int i = 0; i < adapter.getCount(); i++) {
+					SearchConfig item = adapter.getItem(i);
+					if (buildingId == item.getBuildingId()) {
+						selectedBuildingPos = i;
+					}
+				}
+				OnClickListener listener = new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						searchConfig = adapter.getItem(which);
+						dialog.dismiss();
+						loadData();
+					}
+				};
+				AlertDialog mPopup = builder.setSingleChoiceItems(adapter, selectedBuildingPos, listener).show();
 			}
 
 			@Override
 			public int getDrawable() {
-				return android.R.drawable.ic_dialog_map;
+				return R.drawable.buildings;
 			}
 		};
 		Action leftAction = new ActionBar.Action() {
 			@Override
 			public int getDrawable() {
-				// TODO Auto-generated method stub
-				return android.R.drawable.ic_media_previous;
+				return R.drawable.arrow_left;
 			}
 			@Override
 			public void performAction(View view) {
@@ -150,7 +141,7 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 		Action rightAction = new ActionBar.Action() {
 			@Override
 			public int getDrawable() {
-				return android.R.drawable.ic_media_next;
+				return R.drawable.arrow_right;
 			}
 			@Override
 			public void performAction(View view) {
@@ -160,7 +151,7 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 		Action newDateAction = new ActionBar.Action() {
 			@Override
 			public int getDrawable() {
-				return android.R.drawable.ic_dialog_info;
+				return R.drawable.datetime;
 			}
 			@Override
 			public void performAction(View view) {
@@ -176,18 +167,6 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 
 	@Override
 	protected void onResume() {
-		// spBuilding.setAdapter(getBuildingAdapter());
-		if (buildingId != -1) {
-			SpinnerAdapter adapter = spBuilding.getAdapter();
-			for (int i = 0; i < adapter.getCount(); i++) {
-				SearchConfig item = (SearchConfig) adapter.getItem(i);
-				if (buildingId == item.getBuildingId()) {
-					spBuilding.setSelection(i);
-				}
-			}
-		}
-		searchConfig = (SearchConfig) spBuilding.getSelectedItem();
-		searchConfigChanged();
 		loadData();
 		super.onResume();
 	}
@@ -207,7 +186,7 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 	@Override
 	public void updateProgress() {
 		progress += 1000;
-		setProgress(progress);
+		// setProgress(progress);
 	}
 
 	@Override
@@ -269,7 +248,7 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 		return false;
 	}
 
-	private SpinnerAdapter getBuildingAdapter() {
+	private ArrayAdapter<SearchConfig> getBuildingAdapter() {
 		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(this, android.R.layout.simple_spinner_item);
 		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		List<SearchConfig> buildings = SearchConfig.getBuildings(this);
