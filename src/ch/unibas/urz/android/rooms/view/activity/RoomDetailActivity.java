@@ -2,10 +2,13 @@ package ch.unibas.urz.android.rooms.view.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.TextView;
 import ch.unibas.urz.android.rooms.R;
 import ch.unibas.urz.android.rooms.model.IRoomModel;
 import ch.unibas.urz.android.rooms.model.RoomBundleModel;
+
+import com.markupartist.android.widget.ActionBar;
 
 public class RoomDetailActivity extends Activity {
 
@@ -20,8 +23,12 @@ public class RoomDetailActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.room_detail);
+
+		ActionBar actionBar = (ActionBar) findViewById(R.id.actionBar1);
+		actionBar.setTitle(R.string.app_name);
 
 		tvTime = (TextView)findViewById(R.id.tvTime);
 		tvTitle = (TextView)findViewById(R.id.tvTitle);

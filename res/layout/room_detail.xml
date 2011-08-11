@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
-	<LinearLayout android:layout_weight="1"
-		android:layout_width="fill_parent" android:orientation="vertical"
-		android:id="@+id/LinearLayoutTime" android:layout_height="wrap_content">
-		<TextView android:layout_marginLeft="5dp"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:id="@+id/labelTime"
-			android:text="@string/lableTime"></TextView>
-		<TextView android:layout_marginLeft="5dp" android:textColor="@android:color/white"
-			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
-			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
-			android:layout_height="wrap_content" android:id="@+id/tvTime"></TextView>
+	android:layout_height="fill_parent" style="@style/appWindow">
+	<com.markupartist.android.widget.ActionBar
+		android:id="@+id/actionBar1" style="@style/ActionBarUnibas" />
+	<LinearLayout android:layout_weight=".9"
+		android:background="@android:color/white" android:layout_width="fill_parent"
+		android:orientation="vertical" android:layout_height="fill_parent"
+		android:id="@+id/LinearLayoutValues">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:orientation="vertical"
+			android:id="@+id/linearLayoutTime">
+			<TextView android:id="@+id/labelTime"
+				android:layout_marginTop="5dp" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="@string/lableTime"></TextView>
+			<TextView android:id="@+id/tvTime" android:textStyle="bold"
+				android:textColor="@android:color/black" android:textSize="17sp"
+				android:layout_height="wrap_content" android:layout_marginBottom="10dp"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="TextView"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayoutTitle"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:id="@+id/labelTitle"
+				android:layout_marginTop="5dp" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="@string/lableTitle"></TextView>
+			<TextView android:id="@+id/tvTitle" android:textStyle="bold"
+				android:textColor="@android:color/black" android:textSize="17sp"
+				android:layout_marginBottom="10dp" android:layout_marginLeft="5dp"
+				android:layout_width="fill_parent" android:text="TextView"
+				android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayoutLecturer"
+			android:layout_height="wrap_content" android:orientation="vertical"
+			android:layout_width="fill_parent">
+			<TextView android:id="@+id/lableLecturer"
+				android:layout_marginTop="5dp" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="@string/lableLecturer"></TextView>
+			<TextView android:id="@+id/tvLecturer" android:textStyle="bold"
+				android:textColor="@android:color/black" android:textSize="17sp"
+				android:layout_marginBottom="10dp" android:layout_marginLeft="5dp"
+				android:layout_width="fill_parent" android:text="TextView"
+				android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/LinearLayoutBuilding"
+			android:layout_height="wrap_content" android:orientation="vertical"
+			android:layout_width="fill_parent" >
+			<TextView android:id="@+id/lableBuilding"
+				android:layout_marginTop="5dp" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="@string/labelBuilding"></TextView>
+			<TextView android:id="@+id/tvBuilding" android:textStyle="bold"
+				android:textColor="@android:color/black" android:textSize="17sp"
+				android:layout_marginBottom="10dp" android:layout_marginLeft="5dp"
+				android:layout_width="fill_parent" android:text="TextView"
+				android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
+		<LinearLayout android:id="@+id/linearLayoutRoom"
+			android:layout_height="wrap_content" android:orientation="vertical"
+			android:layout_width="fill_parent" >
+			<TextView android:id="@+id/labelRoom"
+				android:layout_marginTop="5dp" android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp" android:layout_width="fill_parent"
+				android:text="@string/labelRoomDetail"></TextView>
+			<TextView android:id="@+id/tvRoom" android:textStyle="bold"
+				android:textColor="@android:color/black" android:textSize="17sp"
+				android:layout_marginBottom="10dp" android:layout_marginLeft="5dp"
+				android:layout_width="fill_parent" android:text="TextView"
+				android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
 	</LinearLayout>
-	<LinearLayout android:layout_weight="1"
-		android:layout_width="fill_parent" android:orientation="vertical"
-		android:layout_height="wrap_content" android:id="@+id/LinearLayoutTitle">
-		<TextView android:layout_marginLeft="5dp"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:id="@+id/labelTitle"
-			android:text="@string/lableTitle"></TextView>
-		<TextView android:layout_marginLeft="5dp" android:textColor="@android:color/white"
-			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
-			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
-			android:layout_height="fill_parent" android:id="@+id/tvTitle"></TextView>
-	</LinearLayout>
-	<LinearLayout android:layout_weight="1"
-		android:layout_width="fill_parent" android:orientation="vertical"
-		android:layout_height="wrap_content" android:id="@+id/LinearLayoutLecturer">
-		<TextView android:layout_marginLeft="5dp"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:id="@+id/lableLecturer"
-			android:text="@string/lableLecturer"></TextView>
-		<TextView android:layout_marginLeft="5dp" android:textColor="@android:color/white"
-			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
-			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
-			android:layout_height="fill_parent" android:id="@+id/tvLecturer"></TextView>
-	</LinearLayout>
-	<LinearLayout android:layout_weight="1"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="vertical" android:id="@+id/LinearLayoutBuilding">
-		<TextView android:layout_marginLeft="5dp"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:layout_marginTop="5dp" android:id="@+id/lableBuilding"
-			android:text="@string/labelBuilding"></TextView>
-		<TextView android:layout_marginLeft="5dp" android:textColor="@android:color/white"
-			android:layout_width="fill_parent" android:layout_marginBottom="10dp"
-			android:text="TextView" android:textSize="17sp" android:textStyle="bold"
-			android:layout_height="fill_parent" android:id="@+id/tvBuilding"></TextView>
-	</LinearLayout>
-	<LinearLayout android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_weight="1"
-		android:layout_height="wrap_content" android:id="@+id/linearLayoutRoom">
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:layout_marginLeft="5dp"
-			android:layout_marginTop="5dp" android:id="@+id/labelRoom"
-			android:text="@string/labelRoomDetail"></TextView>
-		<TextView android:text="TextView" android:textStyle="bold" android:textColor="@android:color/white"
-			android:layout_marginLeft="5dp" android:layout_marginBottom="10dp"
-			android:layout_height="fill_parent" android:layout_width="fill_parent"
-			android:textSize="17sp" android:id="@+id/tvRoom"></TextView>
-	</LinearLayout>
+	<include layout="@layout/footer_unbas_turquise" android:id="@+id/linearLayout1_ref"
+		android:layout_width="fill_parent" android:layout_height="90dp"
+		android:layout_gravity="bottom|left" android:layout_weight=".3" />
 </LinearLayout>
