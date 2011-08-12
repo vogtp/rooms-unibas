@@ -249,8 +249,8 @@ public class RoomUnibasActivity extends ListActivity implements IGestureReceiver
 	}
 
 	private ArrayAdapter<SearchConfig> getBuildingAdapter() {
-		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(this, android.R.layout.simple_spinner_item);
-		buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<SearchConfig> buildingAdapter = new ArrayAdapter<SearchConfig>(this, android.R.layout.simple_spinner_dropdown_item);
+		// buildingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		List<SearchConfig> buildings = SearchConfig.getBuildings(this);
 		Settings settings = Settings.getInstance();
 		for (Iterator<SearchConfig> iterator = buildings.iterator(); iterator.hasNext();) {
