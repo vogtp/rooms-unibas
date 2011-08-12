@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="ch.unibas.urz.android.rooms" android:versionName="0.4.0-rc1" android:versionCode="201108120">
+	package="ch.unibas.urz.android.rooms" android:versionName="0.4.0-rc2" android:versionCode="201108121">
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="11"/>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
