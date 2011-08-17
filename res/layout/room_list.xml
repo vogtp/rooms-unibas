@@ -8,7 +8,7 @@
 	<TextView android:text="info" android:textColor="@android:color/darker_gray"
 		android:layout_height="wrap_content" android:id="@+id/tvDate"
 		android:lines="1" android:layout_width="fill_parent"
-		android:background="@color/backgroundUni"></TextView>
+		android:background="@color/backgroundUni" android:layout_marginBottom="1dp"></TextView>
 	<ListView android:layout_width="fill_parent" style="@style/appListview"
 		android:layout_weight=".9" android:layout_height="fill_parent"
 		android:id="@android:id/list"></ListView>
